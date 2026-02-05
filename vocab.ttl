@@ -1,0 +1,245 @@
+@prefix agent: <https://awktavian.github.io/web/vocab#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# =============================================================================
+# Agent Data Pod Vocabulary
+# Version 0.2.0
+# https://awktavian.github.io/web/vocab#
+# =============================================================================
+
+<https://awktavian.github.io/web/vocab#>
+    a owl:Ontology ;
+    owl:versionIRI <https://awktavian.github.io/web/vocab/0.2.0#> ;
+    owl:versionInfo "0.2.0" ;
+    owl:imports <http://purl.org/dc/terms/> ;
+    owl:imports <http://www.w3.org/ns/prov#> ;
+    dct:title "Agent Data Pod Vocabulary"@en ;
+    dct:description "RDF vocabulary for storing AI agent memory, state, and capabilities in Solid Pods. Extends FOAF for agent identity and PROV-O for audit trails."@en ;
+    dct:creator [
+        a foaf:Person ;
+        foaf:name "Timothy Jacoby" ;
+        foaf:mbox <mailto:tim@awkronos.com>
+    ] ;
+    dct:created "2026-02-01"^^xsd:date ;
+    dct:modified "2026-02-03"^^xsd:date ;
+    dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+    rdfs:seeAlso <https://awktavian.github.io/web/spec.html> .
+
+# =============================================================================
+# Classes
+# =============================================================================
+
+agent:AIAgent
+    a rdfs:Class, owl:Class ;
+    rdfs:subClassOf foaf:Agent ;
+    rdfs:label "AI Agent"@en ;
+    rdfs:comment "An AI agent with a Solid Pod profile. Extends foaf:Agent with agent-specific properties for capabilities and memory."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:MemoryEpisode
+    a rdfs:Class, owl:Class ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "Memory Episode"@en ;
+    rdfs:comment "A unit of agent memory representing a fact, event, preference, or other contextual information learned from interactions."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:Capability
+    a rdfs:Class, owl:Class ;
+    rdfs:label "Capability"@en ;
+    rdfs:comment "An action or function that an agent can perform, including the permissions required and the protocol used for invocation."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:CapabilitySet
+    a rdfs:Class, owl:Class ;
+    rdfs:label "Capability Set"@en ;
+    rdfs:comment "A collection of agent capabilities declared for discovery purposes."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:AuditEntry
+    a rdfs:Class, owl:Class ;
+    rdfs:subClassOf prov:Activity ;
+    rdfs:label "Audit Entry"@en ;
+    rdfs:comment "A record of a modification to agent data, providing provenance tracking for memory episodes and state changes."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:AgentDescriptionService
+    a rdfs:Class, owl:Class ;
+    rdfs:label "Agent Description Service"@en ;
+    rdfs:comment "An ANP Agent Description service endpoint for cross-platform agent discovery."@en ;
+    rdfs:seeAlso <https://agentnetworkprotocol.com/en/specs/07-anp-agent-description-protocol-specification/> ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+# =============================================================================
+# Agent Properties
+# =============================================================================
+
+agent:mcpEndpoint
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain agent:AIAgent ;
+    rdfs:range xsd:anyURI ;
+    rdfs:label "MCP Endpoint"@en ;
+    rdfs:comment "The Model Context Protocol endpoint URL where this agent's tools can be invoked."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:capabilities
+    a rdf:Property, owl:ObjectProperty ;
+    rdfs:domain agent:AIAgent ;
+    rdfs:range agent:CapabilitySet ;
+    rdfs:label "Capabilities"@en ;
+    rdfs:comment "Link to the agent's public capability declarations."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+# =============================================================================
+# Memory Properties
+# =============================================================================
+
+agent:content
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain agent:MemoryEpisode ;
+    rdfs:range xsd:string ;
+    rdfs:label "Content"@en ;
+    rdfs:comment "Human-readable description of the memory episode."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:importance
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain agent:MemoryEpisode ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "Importance"@en ;
+    rdfs:comment "Relevance score from 0.0 (irrelevant) to 1.0 (critical) used for retrieval prioritization."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:memoryType
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain agent:MemoryEpisode ;
+    rdfs:range xsd:string ;
+    rdfs:label "Memory Type"@en ;
+    rdfs:comment "Classification per OpenMemory HMD v2 taxonomy: episodic, semantic, procedural, emotional, reflective."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:tag
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain agent:MemoryEpisode ;
+    rdfs:range xsd:string ;
+    rdfs:label "Tag"@en ;
+    rdfs:comment "Categorical tag for memory retrieval and organization."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:embedding
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain agent:MemoryEpisode ;
+    rdfs:range xsd:base64Binary ;
+    rdfs:label "Embedding"@en ;
+    rdfs:comment "Vector embedding as base64-encoded float32 little-endian bytes."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:embeddingModel
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain agent:MemoryEpisode ;
+    rdfs:range xsd:string ;
+    rdfs:label "Embedding Model"@en ;
+    rdfs:comment "Identifier of the embedding model used (e.g., 'openai/text-embedding-3-large')."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:embeddingDim
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain agent:MemoryEpisode ;
+    rdfs:range xsd:integer ;
+    rdfs:label "Embedding Dimensions"@en ;
+    rdfs:comment "Number of dimensions in the embedding vector."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:chunkingStrategy
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain agent:MemoryEpisode ;
+    rdfs:range xsd:string ;
+    rdfs:label "Chunking Strategy"@en ;
+    rdfs:comment "Text chunking method used for the episode (e.g., 'sentence', 'paragraph', 'fixed-512')."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+# =============================================================================
+# Capability Properties
+# =============================================================================
+
+agent:capability
+    a rdf:Property, owl:ObjectProperty ;
+    rdfs:domain agent:CapabilitySet ;
+    rdfs:range agent:Capability ;
+    rdfs:label "Capability"@en ;
+    rdfs:comment "Link to an individual capability in the set."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:name
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain agent:Capability ;
+    rdfs:range xsd:string ;
+    rdfs:label "Name"@en ;
+    rdfs:comment "Machine-readable identifier for the capability (e.g., 'send_email')."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:description
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain agent:Capability ;
+    rdfs:range xsd:string ;
+    rdfs:label "Description"@en ;
+    rdfs:comment "Human-readable description of the capability."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:requiredPermission
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain agent:Capability ;
+    rdfs:range xsd:anyURI ;
+    rdfs:label "Required Permission"@en ;
+    rdfs:comment "ACL permission URI required to invoke this capability."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:protocol
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain agent:Capability ;
+    rdfs:range xsd:anyURI ;
+    rdfs:label "Protocol"@en ;
+    rdfs:comment "URI identifying the protocol used to invoke this capability."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+# =============================================================================
+# Audit Properties
+# =============================================================================
+
+agent:contentHash
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "Content Hash"@en ;
+    rdfs:comment "Integrity hash of RDFC-1.0 canonicalized content serialized as N-Quads."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:signature
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:range xsd:base64Binary ;
+    rdfs:label "Signature"@en ;
+    rdfs:comment "Cryptographic signature using Ed25519, EcdsaSecp256k1, or JsonWebKey2020."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+agent:signedBy
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:range xsd:anyURI ;
+    rdfs:label "Signed By"@en ;
+    rdfs:comment "WebID or DID of the signing entity."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .
+
+# =============================================================================
+# Embedding Format Property
+# =============================================================================
+
+agent:embeddingFormat
+    a rdf:Property, owl:DatatypeProperty ;
+    rdfs:domain agent:MemoryEpisode ;
+    rdfs:range xsd:string ;
+    rdfs:label "Embedding Format"@en ;
+    rdfs:comment "Format specification for the embedding binary (e.g., 'float32-le' for 32-bit floats in little-endian byte order)."@en ;
+    rdfs:isDefinedBy <https://awktavian.github.io/web/vocab#> .

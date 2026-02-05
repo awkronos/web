@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Migration Guide — Agent Data Pod</title>
+  <meta name="description" content="Guide for converting existing agent data formats to Agent Data Pod format.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F4E6;</text></svg>">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div class="progress-bar" id="progress"></div>
+
+  <header>
+    <nav>
+      <a href="./" class="nav-brand">
+        <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="4" y="8" width="24" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M4 12L16 18L28 12" stroke="currentColor" stroke-width="2"/><path d="M16 18V26" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="5" r="2" fill="currentColor"/></svg>
+        <span>Agent Data Pod</span>
+      </a>
+
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="spec.html">Spec</a></li>
+        <li><a href="vocab.html">Vocab</a></li>
+        <li><a href="paper.html">W3C</a></li>
+        <li><a href="interop.html">Interop</a></li>
+        <li><a href="https://github.com/awktavian/agent-data-pod" aria-label="GitHub repository"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a></li>
+        <li><button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" aria-pressed="false"><svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg><svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" class="page-content">
+    <header class="spec-header">
+      <h1>Migration Guide</h1>
+      <p class="lead">Convert existing agent data formats to Agent Data Pod format.</p>
+    </header>
+
+    <hr>
+
+    <section>
+      <h2>Overview</h2>
+      <p>Agent Data Pods use <a href="https://www.w3.org/TR/turtle/">RDF/Turtle</a> for data storage, following the Solid Protocol. <a href="https://www.w3.org/RDF/">RDF (Resource Description Framework)</a> is a W3C standard for representing structured data as graphs of subject-predicate-object triples. Turtle is a human-readable syntax for RDF that balances readability with expressiveness. This format enables interoperability across agent implementations while preserving user ownership of their data.</p>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Migration Strategies</h2>
+
+      <h3>Strategy 1: Direct Conversion</h3>
+      <p><strong>Best for:</strong> Structured data (JSON, XML, databases)</p>
+      <ol>
+        <li>Map source fields to Agent Data Pod vocabulary</li>
+        <li>Generate Turtle documents</li>
+        <li>Upload to Pod containers</li>
+      </ol>
+
+      <h3>Strategy 2: Embedding-First Migration</h3>
+      <p><strong>Best for:</strong> Unstructured data (text logs, chat history)</p>
+      <ol>
+        <li>Chunk source content</li>
+        <li>Generate embeddings</li>
+        <li>Create MemoryEpisode resources with embeddings</li>
+        <li>Upload to <code>/private/agent/memory/episodes/</code></li>
+      </ol>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Common Source Formats</h2>
+
+      <h3>From JSON Chat History</h3>
+
+      <h4>Source format</h4>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">JSON</span>
+          <button type="button" class="copy-btn" data-copy="source-json" aria-label="Copy JSON chat history example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
+        </div>
+        <pre><code id="source-json">{
+  "messages": [
+    {
+      "id": "msg-001",
+      "role": "user",
+      "content": "Schedule a meeting for tomorrow",
+      "timestamp": "2026-02-01T10:00:00Z"
+    },
+    {
+      "id": "msg-002",
+      "role": "assistant",
+      "content": "I've scheduled a meeting for tomorrow at 9am.",
+      "timestamp": "2026-02-01T10:00:05Z"
+    }
+  ]
+}</code></pre>
+      </div>
+
+      <h4>Target format (Turtle)</h4>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Turtle</span>
+          <button type="button" class="copy-btn" data-copy="target-turtle" aria-label="Copy Turtle format example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
+        </div>
+        <pre><code id="target-turtle">@prefix agent: &lt;https://awktavian.github.io/web/vocab#&gt; .
+@prefix dct: &lt;http://purl.org/dc/terms/&gt; .
+@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+
+&lt;&gt;
+    a agent:MemoryEpisode ;
+    agent:content "User requested meeting scheduling. Assistant scheduled meeting for tomorrow at 9am." ;
+    dct:created "2026-02-01T10:00:00Z"^^xsd:dateTime ;
+    agent:memoryType "episodic" ;
+    agent:tag "calendar", "scheduling" ;
+    agent:importance "0.6"^^xsd:decimal .</code></pre>
+      </div>
+
+      <h3>From SQLite/PostgreSQL</h3>
+
+      <h4>Source schema</h4>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">SQL</span>
+          <button type="button" class="copy-btn" data-copy="source-sql" aria-label="Copy SQL schema example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
+        </div>
+        <pre><code id="source-sql">CREATE TABLE agent_memory (
+    id TEXT PRIMARY KEY,
+    content TEXT NOT NULL,
+    importance REAL,
+    created_at TIMESTAMP,
+    tags TEXT[]
+);
+
+-- Migration query
+SELECT id, content, importance, created_at,
+       array_to_string(tags, ',') as tags_csv
+FROM agent_memory
+ORDER BY created_at;</code></pre>
+      </div>
+
+      <h3>From OpenAI Assistants API</h3>
+      <p>Conversion considerations:</p>
+      <ul>
+        <li>Threads map to conversation sessions</li>
+        <li>Messages group into episodes by turn</li>
+        <li>File attachments should be stored separately</li>
+        <li>Preserve run metadata as provenance</li>
+      </ul>
+
+      <h3>From LangChain Memory</h3>
+      <p>Convert <code>ConversationBufferMemory</code> to episodes:</p>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Python</span>
+          <button type="button" class="copy-btn" data-copy="langchain" aria-label="Copy LangChain conversion example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
+        </div>
+        <pre><code id="langchain">from langchain.memory import ConversationBufferMemory
+
+def convert_langchain_memory(memory) -&gt; list:
+    """Convert LangChain memory to Agent Data Pod format."""
+    history = memory.load_memory_variables({})
+    messages = history.get("history", "").split("\n")
+
+    episodes = []
+    for msg in messages:
+        if msg.strip():
+            episode = create_episode_from_text(msg)
+            episodes.append(episode)
+
+    return episodes</code></pre>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Embedding Migration</h2>
+
+      <h3>Compatible Formats</h3>
+      <div class="table-wrapper">
+        <table>
+          <caption>Embedding model compatibility matrix</caption>
+          <thead>
+            <tr><th scope="col">Source</th><th scope="col">Dimensions</th><th scope="col">Format</th><th scope="col">Compatible?</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>OpenAI ada-002</td><td>1536</td><td>float32</td><td>Yes</td></tr>
+            <tr><td>OpenAI text-embedding-3-small</td><td>1536</td><td>float32</td><td>Yes</td></tr>
+            <tr><td>OpenAI text-embedding-3-large</td><td>3072</td><td>float32</td><td>Yes</td></tr>
+            <tr><td>Cohere embed-v3</td><td>1024</td><td>float32</td><td>Yes</td></tr>
+            <tr><td>Custom</td><td>Any</td><td>float32</td><td>Yes</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Embedding Conversion</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Python</span>
+          <button type="button" class="copy-btn" data-copy="embedding-convert" aria-label="Copy embedding conversion code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
+        </div>
+        <pre><code id="embedding-convert">import base64
+import numpy as np
+
+def convert_embedding(embedding: list[float]) -&gt; str:
+    """Convert embedding to Agent Data Pod base64 format."""
+    arr = np.array(embedding, dtype=np.float32)
+    # Little-endian float32
+    binary = arr.tobytes()
+    return base64.b64encode(binary).decode('ascii')
+
+def create_episode_with_embedding(
+    content: str,
+    embedding: list[float],
+    model: str
+) -&gt; str:
+    """Create Turtle with embedding."""
+    b64_embedding = convert_embedding(embedding)
+    dim = len(embedding)
+
+    return f'''@prefix agent: &lt;https://awktavian.github.io/web/vocab#&gt; .
+@prefix dct: &lt;http://purl.org/dc/terms/&gt; .
+@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+
+&lt;&gt;
+    a agent:MemoryEpisode ;
+    agent:content "{content}" ;
+    dct:created "{datetime.utcnow().isoformat()}Z"^^xsd:dateTime ;
+    agent:embedding "{b64_embedding}"^^xsd:base64Binary ;
+    agent:embeddingDim {dim} ;
+    agent:embeddingFormat "float32-le" ;
+    agent:embeddingModel "{model}" .
+'''</code></pre>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Validation</h2>
+
+      <p>After migration, validate your data with SHACL:</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Shell</span>
+          <button type="button" class="copy-btn" data-copy="validation" aria-label="Copy SHACL validation commands"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
+        </div>
+        <pre><code id="validation"># Using Apache Jena SHACL
+shacl validate \
+  --shapes https://awktavian.github.io/web/vocab.ttl \
+  --data /path/to/episodes/*.ttl
+
+# Using pySHACL
+pyshacl -s vocab.ttl -df turtle -d episodes/</code></pre>
+      </div>
+
+      <h3>Common Validation Errors</h3>
+      <div class="table-wrapper">
+        <table>
+          <caption>Common SHACL validation errors and solutions</caption>
+          <thead>
+            <tr><th scope="col">Error</th><th scope="col">Cause</th><th scope="col">Fix</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Missing <code>agent:content</code></td><td>Content field empty</td><td>Ensure all episodes have content</td></tr>
+            <tr><td>Missing <code>dct:created</code></td><td>No timestamp</td><td>Add creation timestamp</td></tr>
+            <tr><td>Invalid <code>agent:importance</code></td><td>Value outside 0-1</td><td>Clamp to valid range</td></tr>
+            <tr><td>Missing <code>agent:embeddingDim</code></td><td>Embedding without dimension</td><td>Add dimension count</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Bulk Migration</h2>
+
+      <p>For large datasets, use streaming uploads with concurrency control:</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Python</span>
+          <button type="button" class="copy-btn" data-copy="bulk" aria-label="Copy bulk migration code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
+        </div>
+        <pre><code id="bulk">import asyncio
+import httpx
+
+async def bulk_migrate(
+    episodes: list[tuple[str, str]],  # (id, turtle)
+    pod_url: str,
+    auth_token: str,
+    concurrency: int = 10
+):
+    """Upload episodes with concurrency control."""
+    semaphore = asyncio.Semaphore(concurrency)
+
+    async def upload_one(id: str, turtle: str):
+        async with semaphore:
+            async with httpx.AsyncClient() as client:
+                resp = await client.put(
+                    f"{pod_url}/private/agent/memory/episodes/{id}.ttl",
+                    content=turtle,
+                    headers={
+                        "Content-Type": "text/turtle",
+                        "Authorization": f"Bearer {auth_token}"
+                    }
+                )
+                return resp.status_code == 201
+
+    tasks = [upload_one(id, ttl) for id, ttl in episodes]
+    results = await asyncio.gather(*tasks)
+
+    success = sum(results)
+    print(f"Migrated {success}/{len(episodes)} episodes")</code></pre>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Rollback</h2>
+
+      <p>If migration fails, restore from backup:</p>
+      <ol>
+        <li>Keep source data unchanged until validation passes</li>
+        <li>Use Pod's version history if available</li>
+        <li>Delete migrated resources and retry</li>
+      </ol>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Shell</span>
+          <button type="button" class="copy-btn" data-copy="rollback" aria-label="Copy rollback command"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
+        </div>
+        <pre><code id="rollback"># Delete all migrated episodes
+curl -X DELETE \
+  -H "Authorization: Bearer $TOKEN" \
+  "$POD_URL/private/agent/memory/episodes/"</code></pre>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Support</h2>
+      <p>For migration assistance:</p>
+      <ul>
+        <li><a href="spec.html">Agent Data Pod Specification</a></li>
+        <li><a href="vocab.html">RDF Vocabulary</a></li>
+        <li><a href="https://github.com/awktavian/agent-data-pod/issues">GitHub Issues</a></li>
+      </ul>
+    </section>
+
+    <hr>
+
+    <p class="tagline"><em>Part of the <a href="spec.html">Agent Data Pod Specification</a></em></p>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <svg viewBox="0 0 32 32" fill="none"><rect x="4" y="8" width="24" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M4 12L16 18L28 12" stroke="currentColor" stroke-width="2"/><path d="M16 18V26" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="5" r="2" fill="currentColor"/></svg>
+          <span class="footer-title">Agent Data Pod</span>
+        </div>
+        <p class="footer-tagline">A profile of the Solid Protocol for AI agent data.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col"><h4>Specification</h4><ul><li><a href="spec.html">Full Spec</a></li><li><a href="vocab.html">RDF Vocabulary</a></li><li><a href="paper.html">W3C Position</a></li><li><a href="vocab.ttl" download>Download .ttl</a></li></ul></div>
+        <div class="footer-col"><h4>Developers</h4><ul><li><a href="interop.html">Interoperability</a></li><li><a href="migration.html">Migration Guide</a></li><li><a href="changelog.html">Changelog</a></li></ul></div>
+        <div class="footer-col"><h4>Community</h4><ul><li><a href="https://github.com/awktavian/agent-data-pod">GitHub</a></li><li><a href="https://solidproject.org/">Solid Project</a></li><li><a href="https://www.w3.org/community/agentprotocol/">W3C AI Agent CG</a></li></ul></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>CC BY 4.0 · 2026 Timothy Jacoby</p></div>
+  </footer>
+
+  <!-- Live region for screen reader announcements -->
+  <div id="copy-status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RDF Vocabulary — Agent Data Pod</title>
+  <meta name="description" content="RDF classes and properties for AI agent memory, state, and capabilities in Solid Pods.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F4DA;</text></svg>">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div class="progress-bar" id="progress"></div>
+
+  <header>
+    <nav>
+      <a href="./" class="nav-brand">
+        <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="4" y="8" width="24" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M4 12L16 18L28 12" stroke="currentColor" stroke-width="2"/><path d="M16 18V26" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="5" r="2" fill="currentColor"/></svg>
+        <span>Agent Data Pod</span>
+      </a>
+
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="spec.html">Spec</a></li>
+        <li><a href="vocab.html" class="active" aria-current="page">Vocab</a></li>
+        <li><a href="paper.html">W3C</a></li>
+        <li><a href="interop.html">Interop</a></li>
+        <li><a href="https://github.com/awktavian/agent-data-pod" aria-label="GitHub repository"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a></li>
+        <li><button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" aria-pressed="false"><svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg><svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" class="page-content">
+    <header class="spec-header">
+      <h1>Agent Data Pod Vocabulary</h1>
+      <p class="lead">RDF classes and properties for AI agent data in Solid Pods.</p>
+      <p class="spec-meta">
+        Namespace: <code>https://awktavian.github.io/web/vocab#</code> ·
+        Version 0.2.0 ·
+        <a href="vocab.ttl" download>Download .ttl</a>
+      </p>
+    </header>
+
+    <hr>
+
+    <section>
+      <h2>Overview</h2>
+      <p>This vocabulary defines classes and properties for representing AI agent data in RDF. It extends <a href="http://xmlns.com/foaf/spec/">FOAF</a> for agent identity and <a href="https://www.w3.org/TR/prov-o/">PROV-O</a> for audit trails.</p>
+      <p>Prefix: <code>agent:</code> = <code>&lt;https://awktavian.github.io/web/vocab#&gt;</code></p>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Classes</h2>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Classes defined in the Agent Data Pod vocabulary</caption>
+          <thead>
+            <tr><th scope="col">Class</th><th scope="col">Subclass Of</th><th scope="col">Description</th></tr>
+          </thead>
+          <tbody>
+            <tr id="AIAgent">
+              <td><code>agent:AIAgent</code></td>
+              <td><code>foaf:Agent</code></td>
+              <td>An AI agent with a Solid Pod profile</td>
+            </tr>
+            <tr id="MemoryEpisode">
+              <td><code>agent:MemoryEpisode</code></td>
+              <td><code>prov:Entity</code></td>
+              <td>A unit of agent memory (fact, event, preference)</td>
+            </tr>
+            <tr id="Capability">
+              <td><code>agent:Capability</code></td>
+              <td>—</td>
+              <td>An action the agent can perform</td>
+            </tr>
+            <tr id="CapabilitySet">
+              <td><code>agent:CapabilitySet</code></td>
+              <td>—</td>
+              <td>Collection of agent capabilities</td>
+            </tr>
+            <tr id="AuditEntry">
+              <td><code>agent:AuditEntry</code></td>
+              <td><code>prov:Activity</code></td>
+              <td>Record of a modification to agent data</td>
+            </tr>
+            <tr id="AgentDescriptionService">
+              <td><code>agent:AgentDescriptionService</code></td>
+              <td>—</td>
+              <td>ANP Agent Description service endpoint</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Agent Properties</h2>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Properties for agent profiles</caption>
+          <thead>
+            <tr><th scope="col">Property</th><th scope="col">Domain</th><th scope="col">Range</th><th scope="col">Description</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>agent:mcpEndpoint</code></td>
+              <td><code>agent:AIAgent</code></td>
+              <td><code>xsd:anyURI</code></td>
+              <td>Model Context Protocol endpoint URL</td>
+            </tr>
+            <tr>
+              <td><code>agent:capabilities</code></td>
+              <td><code>agent:AIAgent</code></td>
+              <td><code>agent:CapabilitySet</code></td>
+              <td>Link to capability declarations</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Memory Properties</h2>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Properties for memory episodes</caption>
+          <thead>
+            <tr><th scope="col">Property</th><th scope="col">Domain</th><th scope="col">Range</th><th scope="col">Description</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>agent:content</code></td>
+              <td><code>agent:MemoryEpisode</code></td>
+              <td><code>xsd:string</code></td>
+              <td>Human-readable episode content</td>
+            </tr>
+            <tr>
+              <td><code>agent:importance</code></td>
+              <td><code>agent:MemoryEpisode</code></td>
+              <td><code>xsd:decimal</code></td>
+              <td>Relevance score (0.0-1.0)</td>
+            </tr>
+            <tr>
+              <td><code>agent:memoryType</code></td>
+              <td><code>agent:MemoryEpisode</code></td>
+              <td><code>xsd:string</code></td>
+              <td>episodic, semantic, procedural, emotional, reflective</td>
+            </tr>
+            <tr>
+              <td><code>agent:tag</code></td>
+              <td><code>agent:MemoryEpisode</code></td>
+              <td><code>xsd:string</code></td>
+              <td>Categorical tags for retrieval</td>
+            </tr>
+            <tr>
+              <td><code>agent:embedding</code></td>
+              <td><code>agent:MemoryEpisode</code></td>
+              <td><code>xsd:base64Binary</code></td>
+              <td>Vector embedding (float32 little-endian)</td>
+            </tr>
+            <tr>
+              <td><code>agent:embeddingModel</code></td>
+              <td><code>agent:MemoryEpisode</code></td>
+              <td><code>xsd:string</code></td>
+              <td>Embedding model identifier</td>
+            </tr>
+            <tr>
+              <td><code>agent:embeddingDim</code></td>
+              <td><code>agent:MemoryEpisode</code></td>
+              <td><code>xsd:integer</code></td>
+              <td>Embedding vector dimensions</td>
+            </tr>
+            <tr>
+              <td><code>agent:embeddingFormat</code></td>
+              <td><code>agent:MemoryEpisode</code></td>
+              <td><code>xsd:string</code></td>
+              <td>Format specification (e.g., "float32-le")</td>
+            </tr>
+            <tr>
+              <td><code>agent:chunkingStrategy</code></td>
+              <td><code>agent:MemoryEpisode</code></td>
+              <td><code>xsd:string</code></td>
+              <td>Text chunking method used</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Capability Properties</h2>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Properties for capability declarations</caption>
+          <thead>
+            <tr><th scope="col">Property</th><th scope="col">Domain</th><th scope="col">Range</th><th scope="col">Description</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>agent:capability</code></td>
+              <td><code>agent:CapabilitySet</code></td>
+              <td><code>agent:Capability</code></td>
+              <td>Link to individual capability</td>
+            </tr>
+            <tr>
+              <td><code>agent:name</code></td>
+              <td><code>agent:Capability</code></td>
+              <td><code>xsd:string</code></td>
+              <td>Machine-readable capability name</td>
+            </tr>
+            <tr>
+              <td><code>agent:description</code></td>
+              <td><code>agent:Capability</code></td>
+              <td><code>xsd:string</code></td>
+              <td>Human-readable description</td>
+            </tr>
+            <tr>
+              <td><code>agent:requiredPermission</code></td>
+              <td><code>agent:Capability</code></td>
+              <td><code>xsd:anyURI</code></td>
+              <td>ACL permission required</td>
+            </tr>
+            <tr>
+              <td><code>agent:protocol</code></td>
+              <td><code>agent:Capability</code></td>
+              <td><code>xsd:anyURI</code></td>
+              <td>Invocation protocol URI</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Audit Properties</h2>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Properties for audit trail entries</caption>
+          <thead>
+            <tr><th scope="col">Property</th><th scope="col">Domain</th><th scope="col">Range</th><th scope="col">Description</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>agent:contentHash</code></td>
+              <td>—</td>
+              <td><code>xsd:string</code></td>
+              <td>RDFC-1.0 canonicalized content hash</td>
+            </tr>
+            <tr>
+              <td><code>agent:signature</code></td>
+              <td>—</td>
+              <td><code>xsd:base64Binary</code></td>
+              <td>Cryptographic signature</td>
+            </tr>
+            <tr>
+              <td><code>agent:signedBy</code></td>
+              <td>—</td>
+              <td><code>xsd:anyURI</code></td>
+              <td>Signer's WebID or DID</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Dependencies</h2>
+      <p>This vocabulary imports:</p>
+      <ul>
+        <li><a href="http://purl.org/dc/terms/">Dublin Core Terms</a> (dct:)</li>
+        <li><a href="http://www.w3.org/ns/prov#">PROV-O</a> (prov:)</li>
+        <li><a href="http://xmlns.com/foaf/0.1/">FOAF</a> (foaf:)</li>
+      </ul>
+    </section>
+
+    <hr>
+
+    <p class="tagline"><em><a href="vocab.ttl" download>Download vocab.ttl</a> · <a href="spec.html">Full Specification</a></em></p>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <svg viewBox="0 0 32 32" fill="none"><rect x="4" y="8" width="24" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M4 12L16 18L28 12" stroke="currentColor" stroke-width="2"/><path d="M16 18V26" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="5" r="2" fill="currentColor"/></svg>
+          <span class="footer-title">Agent Data Pod</span>
+        </div>
+        <p class="footer-tagline">A profile of the Solid Protocol for AI agent data.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col"><h4>Specification</h4><ul><li><a href="spec.html">Full Spec</a></li><li><a href="vocab.html">RDF Vocabulary</a></li><li><a href="paper.html">W3C Position</a></li><li><a href="vocab.ttl" download>Download .ttl</a></li></ul></div>
+        <div class="footer-col"><h4>Developers</h4><ul><li><a href="interop.html">Interoperability</a></li><li><a href="migration.html">Migration Guide</a></li><li><a href="changelog.html">Changelog</a></li></ul></div>
+        <div class="footer-col"><h4>Community</h4><ul><li><a href="https://github.com/awktavian/agent-data-pod">GitHub</a></li><li><a href="https://solidproject.org/">Solid Project</a></li><li><a href="https://www.w3.org/community/agentprotocol/">W3C AI Agent CG</a></li></ul></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>CC BY 4.0 · 2026 Timothy Jacoby</p></div>
+  </footer>
+
+  <div id="copy-status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interoperability Guide — Agent Data Pod</title>
+  <meta name="description" content="Implementation guidance for integrating Agent Data Pods with ANP, A2A, MCP, and other AI agent protocols.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F517;</text></svg>">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div class="progress-bar" id="progress"></div>
+
+  <header>
+    <nav>
+      <a href="./" class="nav-brand">
+        <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="4" y="8" width="24" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M4 12L16 18L28 12" stroke="currentColor" stroke-width="2"/><path d="M16 18V26" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="5" r="2" fill="currentColor"/></svg>
+        <span>Agent Data Pod</span>
+      </a>
+
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="spec.html">Spec</a></li>
+        <li><a href="vocab.html">Vocab</a></li>
+        <li><a href="paper.html">W3C</a></li>
+        <li><a href="interop.html" class="active" aria-current="page">Interop</a></li>
+        <li><a href="https://github.com/awktavian/agent-data-pod" aria-label="GitHub repository"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a></li>
+        <li><button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" aria-pressed="false"><svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg><svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" class="page-content">
+    <header class="spec-header">
+      <h1>Interoperability Guide</h1>
+      <p class="lead">Implementation guidance for integrating Agent Data Pods with other AI agent protocols and discovery mechanisms.</p>
+    </header>
+
+    <hr>
+
+    <section>
+      <h2>Protocol Compatibility Matrix</h2>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Protocol compatibility levels and integration points</caption>
+          <thead>
+            <tr><th scope="col">Protocol</th><th scope="col">Support Level</th><th scope="col">Integration Points</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Solid Protocol</strong></td>
+              <td>Native</td>
+              <td>Full compliance as Solid Pod profile</td>
+            </tr>
+            <tr>
+              <td><strong>Agent Network Protocol (ANP)</strong></td>
+              <td>Full</td>
+              <td>did:wba identity, Agent Description</td>
+            </tr>
+            <tr>
+              <td><strong>Agent2Agent (A2A)</strong></td>
+              <td>Compatible</td>
+              <td>Agent Card at <code>/.well-known/agent.json</code></td>
+            </tr>
+            <tr>
+              <td><strong>Model Context Protocol (MCP)</strong></td>
+              <td>Full</td>
+              <td><code>agent:mcpEndpoint</code> for tool invocation</td>
+            </tr>
+            <tr>
+              <td><strong>OpenMemory HMD v2</strong></td>
+              <td>Partial</td>
+              <td>Memory sector taxonomy alignment</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>ANP Integration</h2>
+
+      <h3>did:wba Identity</h3>
+      <p>Agent Data Pods can use the <a href="https://agentnetworkprotocol.com/en/specs/03-did-wba-method-specification/">did:wba method</a> for cross-platform agent identity.</p>
+
+      <h4>Pod Profile Integration</h4>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Turtle</span>
+          <button type="button" class="copy-btn" data-copy="anp-profile" aria-label="Copy ANP profile integration example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
+        </div>
+        <pre><code id="anp-profile">@prefix schema: &lt;https://schema.org/&gt; .
+@prefix agent: &lt;https://awktavian.github.io/web/vocab#&gt; .
+@prefix solid: &lt;http://www.w3.org/ns/solid/terms#&gt; .
+
+&lt;#me&gt;
+    schema:identifier &lt;did:wba:example.com:user:agent-001&gt; ;
+    solid:service [
+        a agent:AgentDescriptionService ;
+        solid:endpoint &lt;/public/agent/ad.json&gt;
+    ] .</code></pre>
+      </div>
+
+      <h4>DID Document Hosting</h4>
+      <p>The Pod MAY host the DID Document at <code>/.well-known/did.json</code>:</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">JSON</span>
+          <button type="button" class="copy-btn" data-copy="did-doc" aria-label="Copy DID Document example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
+        </div>
+        <pre><code id="did-doc">{
+  "@context": "https://www.w3.org/ns/did/v1",
+  "id": "did:wba:example.com:user:agent-001",
+  "verificationMethod": [{
+    "id": "did:wba:example.com:user:agent-001#key-1",
+    "type": "EcdsaSecp256k1VerificationKey2019",
+    "controller": "did:wba:example.com:user:agent-001",
+    "publicKeyMultibase": "zQ3shokFTS..."
+  }],
+  "authentication": ["did:wba:example.com:user:agent-001#key-1"],
+  "keyAgreement": [{
+    "id": "did:wba:example.com:user:agent-001#key-agreement-1",
+    "type": "X25519KeyAgreementKey2020",
+    "controller": "did:wba:example.com:user:agent-001",
+    "publicKeyMultibase": "z6LSbysY7b..."
+  }],
+  "service": [{
+    "id": "did:wba:example.com:user:agent-001#solid-pod",
+    "type": "SolidStorageService",
+    "serviceEndpoint": "https://example.com/user/"
+  }]
+}</code></pre>
+      </div>
+
+      <h3>ANP Agent Description</h3>
+      <p>Provide an Agent Description document at <code>/public/agent/ad.json</code>:</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">JSON-LD</span>
+          <button type="button" class="copy-btn" data-copy="anp-ad" aria-label="Copy ANP Agent Description example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
+        </div>
+        <pre><code id="anp-ad">{
+  "@context": [
+    "https://schema.org",
+    "https://agentnetworkprotocol.com/ns"
+  ],
+  "@type": "AgentDescription",
+  "@id": "did:wba:example.com:user:agent-001",
+  "name": "Personal Assistant",
+  "description": "AI assistant for calendar and email management",
+  "version": "1.0.0",
+  "interfaces": [
+    {
+      "@type": "MCPInterface",
+      "protocol": "https://modelcontextprotocol.io/specification/2025-11-25",
+      "url": "wss://api.example.com/mcp/agent-001"
+    }
+  ],
+  "capabilities": ["calendar:read", "calendar:write", "email:read", "email:send"],
+  "solidProfile": "/profile/card#me"
+}</code></pre>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>A2A Integration</h2>
+
+      <h3>Agent Card</h3>
+      <p>For <a href="https://a2a-protocol.org/latest/specification/">A2A Protocol</a> compatibility, serve an Agent Card at <code>/.well-known/agent.json</code>:</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">JSON</span>
+          <button type="button" class="copy-btn" data-copy="a2a-card" aria-label="Copy A2A Agent Card example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
+        </div>
+        <pre><code id="a2a-card">{
+  "name": "Personal Assistant",
+  "description": "AI assistant for calendar and email management",
+  "url": "https://example.com/user/",
+  "provider": {
+    "organization": "Awkronos",
+    "url": "https://awkronos.com"
+  },
+  "version": "1.0.0",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": true
+  },
+  "skills": [
+    {
+      "id": "calendar",
+      "name": "Calendar Management",
+      "description": "Read and write calendar events"
+    },
+    {
+      "id": "email",
+      "name": "Email Management",
+      "description": "Send and receive email"
+    }
+  ],
+  "authentication": {
+    "schemes": ["oauth2", "solid-oidc"]
+  }
+}</code></pre>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>MCP Integration</h2>
+
+      <h3>Endpoint Configuration</h3>
+      <p>The <code>agent:mcpEndpoint</code> property in the Pod profile points to the MCP server:</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Turtle</span>
+          <button type="button" class="copy-btn" data-copy="mcp-endpoint" aria-label="Copy MCP endpoint example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
+        </div>
+        <pre><code id="mcp-endpoint">&lt;#me&gt;
+    agent:mcpEndpoint &lt;wss://api.example.com/mcp/agent-001&gt; .</code></pre>
+      </div>
+
+      <h3>Capability Mapping</h3>
+      <p>MCP tools map directly to Agent Data Pod capabilities:</p>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Mapping between Agent Data Pod vocabulary and MCP concepts</caption>
+          <thead>
+            <tr><th scope="col">Agent Data Pod</th><th scope="col">MCP</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>agent:Capability</code></td><td>Tool</td></tr>
+            <tr><td><code>agent:name</code></td><td>Tool name</td></tr>
+            <tr><td><code>agent:description</code></td><td>Tool description</td></tr>
+            <tr><td><code>agent:requiredPermission</code></td><td>N/A (use Solid ACLs)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Memory Interoperability</h2>
+
+      <h3>OpenMemory HMD v2 Alignment</h3>
+      <p>Agent Data Pod memory sectors map to <a href="https://github.com/mem0ai/mem0">OpenMemory HMD v2</a> taxonomy:</p>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Memory type mapping to OpenMemory HMD v2 taxonomy</caption>
+          <thead>
+            <tr><th scope="col"><code>agent:memoryType</code></th><th scope="col">HMD v2 Sector</th><th scope="col">Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>episodic</code></td><td>Episodic</td><td>Autobiographical events and experiences</td></tr>
+            <tr><td><code>semantic</code></td><td>Semantic</td><td>Facts, concepts, and general knowledge</td></tr>
+            <tr><td><code>procedural</code></td><td>Procedural</td><td>How-to knowledge and learned processes</td></tr>
+            <tr><td><code>emotional</code></td><td>Emotional</td><td>Affective context and sentiment</td></tr>
+            <tr><td><code>reflective</code></td><td>Reflective</td><td>Meta-cognitive observations</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Embedding Interoperability</h3>
+      <p>When sharing embeddings across systems:</p>
+      <ol>
+        <li><strong>Document the model:</strong> Always set <code>agent:embeddingModel</code></li>
+        <li><strong>Use consistent dimensions:</strong> Verify <code>agent:embeddingDim</code> matches expected values</li>
+        <li><strong>Specify chunking:</strong> Set <code>agent:chunkingStrategy</code> for reproducibility</li>
+      </ol>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Discovery Flow</h2>
+
+      <h3>Recommended Discovery Sequence</h3>
+      <ol class="goal-list">
+        <li><strong>Check <code>/.well-known/agent.json</code></strong> for A2A compatibility</li>
+        <li><strong>Resolve DID</strong> if <code>did:wba</code> is present in profile</li>
+        <li><strong>Fetch Agent Description</strong> from <code>AgentDescriptionService</code> endpoint</li>
+        <li><strong>Read Solid profile</strong> at <code>/profile/card</code> for full RDF metadata</li>
+        <li><strong>Fetch capabilities</strong> from <code>agent:capabilities</code> link</li>
+      </ol>
+
+      <h3>Error Response Codes</h3>
+      <div class="table-wrapper">
+        <table>
+          <caption>HTTP response codes and recommended actions</caption>
+          <thead>
+            <tr><th scope="col">HTTP Status</th><th scope="col">Meaning</th><th scope="col">Action</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>200</td><td>Success</td><td>Parse response</td></tr>
+            <tr><td>404</td><td>Not found</td><td>Skip optional resource, fail on required</td></tr>
+            <tr><td>401/403</td><td>Unauthorized</td><td>Authenticate and retry</td></tr>
+            <tr><td>408</td><td>Timeout</td><td>Retry with backoff</td></tr>
+            <tr><td>429</td><td>Rate limited</td><td>Wait and retry</td></tr>
+            <tr><td>5xx</td><td>Server error</td><td>Retry with backoff</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Security Considerations</h2>
+
+      <h3>Cross-Protocol Authentication</h3>
+      <ul>
+        <li><strong>Solid-OIDC:</strong> Use for Solid Pod access</li>
+        <li><strong>DPoP tokens:</strong> Recommended for all authenticated requests</li>
+        <li><strong>did:wba verification:</strong> Verify DID Document signatures for cross-platform trust</li>
+      </ul>
+
+      <h3>Signature Verification</h3>
+      <p>When verifying signatures across protocols:</p>
+      <ol>
+        <li>Canonicalize RDF using <strong>RDFC-1.0</strong> algorithm</li>
+        <li>Serialize as <strong>N-Quads</strong></li>
+        <li>Verify using the key type specified in the DID Document</li>
+      </ol>
+
+      <p>Supported verification key types:</p>
+      <ul>
+        <li><code>Ed25519VerificationKey2020</code> (RECOMMENDED)</li>
+        <li><code>EcdsaSecp256k1VerificationKey2019</code> (MUST for did:wba)</li>
+        <li><code>JsonWebKey2020</code> (MAY)</li>
+      </ul>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>References</h2>
+      <dl>
+        <dt>[AGENT-DATA-POD]</dt>
+        <dd>Agent Data Pod Specification. <a href="spec.html">spec.html</a></dd>
+
+        <dt>[DID-WBA]</dt>
+        <dd>ANP did:wba Method. <a href="https://agentnetworkprotocol.com/en/specs/03-did-wba-method-specification/">https://agentnetworkprotocol.com/en/specs/03-did-wba-method-specification/</a></dd>
+
+        <dt>[ANP-AGENT-DESCRIPTION]</dt>
+        <dd>ANP Agent Description Protocol. <a href="https://agentnetworkprotocol.com/en/specs/07-anp-agent-description-protocol-specification/">https://agentnetworkprotocol.com/en/specs/07-anp-agent-description-protocol-specification/</a></dd>
+
+        <dt>[A2A-PROTOCOL]</dt>
+        <dd>A2A Protocol Specification. <a href="https://a2a-protocol.org/latest/specification/">https://a2a-protocol.org/latest/specification/</a></dd>
+
+        <dt>[MCP]</dt>
+        <dd>Model Context Protocol. <a href="https://modelcontextprotocol.io/specification/latest">https://modelcontextprotocol.io/specification/latest</a></dd>
+
+        <dt>[SOLID-PROTOCOL]</dt>
+        <dd>Solid Protocol. <a href="https://solidproject.org/TR/protocol">https://solidproject.org/TR/protocol</a></dd>
+
+        <dt>[RDFC-1.0]</dt>
+        <dd>W3C RDF Dataset Canonicalization. <a href="https://w3c.github.io/rdf-canon/spec/">https://w3c.github.io/rdf-canon/spec/</a></dd>
+      </dl>
+    </section>
+
+    <hr>
+
+    <p class="tagline"><em>Part of the <a href="spec.html">Agent Data Pod Specification</a></em></p>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <svg viewBox="0 0 32 32" fill="none"><rect x="4" y="8" width="24" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M4 12L16 18L28 12" stroke="currentColor" stroke-width="2"/><path d="M16 18V26" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="5" r="2" fill="currentColor"/></svg>
+          <span class="footer-title">Agent Data Pod</span>
+        </div>
+        <p class="footer-tagline">A profile of the Solid Protocol for AI agent data.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col"><h4>Specification</h4><ul><li><a href="spec.html">Full Spec</a></li><li><a href="vocab.html">RDF Vocabulary</a></li><li><a href="paper.html">W3C Position</a></li><li><a href="vocab.ttl" download>Download .ttl</a></li></ul></div>
+        <div class="footer-col"><h4>Developers</h4><ul><li><a href="interop.html">Interoperability</a></li><li><a href="migration.html">Migration Guide</a></li><li><a href="changelog.html">Changelog</a></li></ul></div>
+        <div class="footer-col"><h4>Community</h4><ul><li><a href="https://github.com/awktavian/agent-data-pod">GitHub</a></li><li><a href="https://solidproject.org/">Solid Project</a></li><li><a href="https://www.w3.org/community/agentprotocol/">W3C AI Agent CG</a></li></ul></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>CC BY 4.0 · 2026 Timothy Jacoby</p></div>
+  </footer>
+
+  <!-- Live region for screen reader announcements -->
+  <div id="copy-status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

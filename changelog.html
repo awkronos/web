@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Changelog — Agent Data Pod</title>
+  <meta name="description" content="Version history and changelog for the Agent Data Pod specification.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F4DD;</text></svg>">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div class="progress-bar" id="progress"></div>
+
+  <header>
+    <nav>
+      <a href="./" class="nav-brand">
+        <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="4" y="8" width="24" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M4 12L16 18L28 12" stroke="currentColor" stroke-width="2"/><path d="M16 18V26" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="5" r="2" fill="currentColor"/></svg>
+        <span>Agent Data Pod</span>
+      </a>
+
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="spec.html">Spec</a></li>
+        <li><a href="vocab.html">Vocab</a></li>
+        <li><a href="paper.html">W3C</a></li>
+        <li><a href="interop.html">Interop</a></li>
+        <li><a href="https://github.com/awktavian/agent-data-pod" aria-label="GitHub repository"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a></li>
+        <li><button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" aria-pressed="false"><svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg><svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" class="page-content">
+    <header class="spec-header">
+      <h1>Changelog</h1>
+      <p class="lead">All notable changes to the Agent Data Pod specification.</p>
+      <p class="lead spec-meta-small">Format based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>. This project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+    </header>
+
+    <hr>
+
+    <section>
+      <h2>Version History</h2>
+      <div class="table-wrapper">
+        <table>
+          <caption>Agent Data Pod version history</caption>
+          <thead>
+            <tr><th scope="col">Version</th><th scope="col">Date</th><th scope="col">Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>0.2.0</strong></td><td>2026-02-03</td><td>ANP/A2A integration, memory taxonomy, security enhancements</td></tr>
+            <tr><td>0.1.0</td><td>2026-02-01</td><td>Initial release</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2 id="v0-2-0">[0.2.0] — 2026-02-03</h2>
+
+      <h3>Added</h3>
+      <ul>
+        <li><strong>did:wba Integration</strong> (Section 4.1): Full support for ANP's Web-Based Agent DID method
+          <ul>
+            <li><code>humanAuthorization</code> verification method support</li>
+            <li><code>keyAgreement</code> method for encrypted communication</li>
+            <li><code>AgentDescriptionService</code> endpoint specification</li>
+          </ul>
+        </li>
+        <li><strong>ANP Agent Description Format</strong> (Section 6.1): JSON-LD capability format aligned with ANP</li>
+        <li><strong>A2A Agent Card Compatibility</strong> (Section 6.2): Support for Agent2Agent Protocol discovery</li>
+        <li><strong>Memory Sector Taxonomy</strong> (Section 5.2): OpenMemory HMD v2 alignment
+          <ul>
+            <li><code>agent:memoryType</code> property with values: episodic, semantic, procedural, emotional, reflective</li>
+          </ul>
+        </li>
+        <li><strong>Security Enhancements</strong> (Sections 8.5-8.7):
+          <ul>
+            <li>Multi-user Pod security considerations</li>
+            <li>DPoP-bound access token guidance</li>
+            <li>Post-quantum cryptography considerations</li>
+          </ul>
+        </li>
+        <li><strong>W3C CG Alignment</strong> (Section 10): Explicit mapping to W3C AI Agent Protocol CG work items</li>
+        <li><strong>New Vocabulary Terms</strong>:
+          <ul>
+            <li><code>agent:AgentDescriptionService</code> class</li>
+            <li><code>agent:memoryType</code> property</li>
+            <li><code>agent:embeddingModel</code> property</li>
+            <li><code>agent:chunkingStrategy</code> property</li>
+          </ul>
+        </li>
+        <li><strong>Documentation</strong>:
+          <ul>
+            <li><a href="interop.html">Interoperability Guide</a></li>
+            <li><a href="migration.html">Migration Guide</a></li>
+            <li>This changelog</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>Changed</h3>
+      <ul>
+        <li><strong>Canonicalization</strong> (Section 8.3): Updated from informal N-Triples to W3C RDFC-1.0 algorithm</li>
+        <li><strong>Signature Algorithms</strong> (Assertion A23): Expanded from Ed25519-only to support multiple key types
+          <ul>
+            <li>Ed25519VerificationKey2020 (RECOMMENDED)</li>
+            <li>EcdsaSecp256k1VerificationKey2019 (MUST for did:wba)</li>
+            <li>JsonWebKey2020 (MAY)</li>
+          </ul>
+        </li>
+        <li><strong>References</strong>: Added normative and informative references for ANP, A2A, VC 2.0, RDFC-1.0</li>
+        <li><strong>Conformance Table</strong>: Updated to reference security assertions S1-S8 for Full level</li>
+      </ul>
+
+      <h3>Fixed</h3>
+      <ul>
+        <li>RFC 2119 compliance: Replaced non-standard "REQUIRED" with "MUST"</li>
+        <li>OWL property declarations: Fixed <code>mcpEndpoint</code> and <code>protocol</code> to use <code>owl:DatatypeProperty</code></li>
+        <li>Added missing <code>rdfs:domain</code> to <code>agent:description</code> property</li>
+        <li>Added <code>owl:imports</code> for DCT and PROV-O vocabulary dependencies</li>
+      </ul>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2 id="v0-1-0">[0.1.0] — 2026-02-01</h2>
+
+      <h3>Added</h3>
+      <ul>
+        <li>Initial specification release</li>
+        <li>Pod structure definition with <code>/private/agent/</code> and <code>/public/agent/</code> containers</li>
+        <li>Agent profile format extending FOAF</li>
+        <li>Memory episode format with embedding support</li>
+        <li>Capability declarations</li>
+        <li>Audit trail with PROV-O compatibility</li>
+        <li>Encryption requirements (AES-256-GCM)</li>
+        <li>Access control via WAC/ACP</li>
+        <li>SHACL validation shapes</li>
+        <li>RDF vocabulary at <code>https://awktavian.github.io/web/vocab#</code></li>
+        <li>W3C position paper</li>
+      </ul>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Upgrade Guide</h2>
+
+      <h3>From 0.1.0 to 0.2.0</h3>
+      <p><strong>No breaking changes.</strong> All 0.1.0 conformant implementations remain conformant.</p>
+
+      <p>New optional features you can adopt:</p>
+      <ol class="goal-list">
+        <li>Add <code>agent:AgentDescriptionService</code> to profile for ANP discovery</li>
+        <li>Add <code>agent:memoryType</code> to memory episodes for taxonomy classification</li>
+        <li>Add <code>agent:embeddingModel</code> to document embedding sources</li>
+        <li>Update signature verification to use RDFC-1.0 canonicalization</li>
+      </ol>
+    </section>
+
+    <hr>
+
+    <p class="tagline"><em>Part of the <a href="spec.html">Agent Data Pod Specification</a></em></p>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <svg viewBox="0 0 32 32" fill="none"><rect x="4" y="8" width="24" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M4 12L16 18L28 12" stroke="currentColor" stroke-width="2"/><path d="M16 18V26" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="5" r="2" fill="currentColor"/></svg>
+          <span class="footer-title">Agent Data Pod</span>
+        </div>
+        <p class="footer-tagline">A profile of the Solid Protocol for AI agent data.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col"><h4>Specification</h4><ul><li><a href="spec.html">Full Spec</a></li><li><a href="vocab.html">RDF Vocabulary</a></li><li><a href="paper.html">W3C Position</a></li><li><a href="vocab.ttl" download>Download .ttl</a></li></ul></div>
+        <div class="footer-col"><h4>Developers</h4><ul><li><a href="interop.html">Interoperability</a></li><li><a href="migration.html">Migration Guide</a></li><li><a href="changelog.html">Changelog</a></li></ul></div>
+        <div class="footer-col"><h4>Community</h4><ul><li><a href="https://github.com/awktavian/agent-data-pod">GitHub</a></li><li><a href="https://solidproject.org/">Solid Project</a></li><li><a href="https://www.w3.org/community/agentprotocol/">W3C AI Agent CG</a></li></ul></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>CC BY 4.0 · 2026 Timothy Jacoby</p></div>
+  </footer>
+
+  <!-- Live region for screen reader announcements -->
+  <div id="copy-status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

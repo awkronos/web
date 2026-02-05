@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Data Pod Specification</title>
+  <meta name="description" content="Technical specification for storing AI agent memory, state, and capabilities in Solid Pods.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F4DC;</text></svg>">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div class="progress-bar" id="progress"></div>
+
+  <header>
+    <nav>
+      <a href="./" class="nav-brand">
+        <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="4" y="8" width="24" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M4 12L16 18L28 12" stroke="currentColor" stroke-width="2"/><path d="M16 18V26" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="5" r="2" fill="currentColor"/></svg>
+        <span>Agent Data Pod</span>
+      </a>
+
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="spec.html" class="active" aria-current="page">Spec</a></li>
+        <li><a href="vocab.html">Vocab</a></li>
+        <li><a href="paper.html">W3C</a></li>
+        <li><a href="interop.html">Interop</a></li>
+        <li><a href="https://github.com/awktavian/agent-data-pod" aria-label="GitHub repository"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a></li>
+        <li><button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" aria-pressed="false"><svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg><svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" class="page-content">
+    <header class="spec-header">
+      <h1>Agent Data Pod Specification</h1>
+      <p class="lead">A profile of the Solid Protocol for storing AI agent memory, state, and capabilities.</p>
+      <p class="spec-meta">
+        Version 0.2.0 · <time datetime="2026-02-03">2026-02-03</time> ·
+        <a href="https://github.com/awktavian/agent-data-pod">Editor's Draft</a>
+      </p>
+    </header>
+
+    <hr>
+
+    <!-- Abstract -->
+    <section id="abstract">
+      <h2>Abstract</h2>
+      <p>This specification defines conventions for storing AI agent data in <a href="https://solidproject.org/TR/protocol">Solid Pods</a>. It specifies container structures, RDF vocabularies, encryption requirements, and access control patterns that enable portable, user-controlled agent data storage.</p>
+      <p>The specification is designed to complement the <a href="https://www.w3.org/community/agentprotocol/">W3C AI Agent Protocol Community Group's</a> work on agent identity, discovery, and communication protocols.</p>
+    </section>
+
+    <hr>
+
+    <!-- Status -->
+    <section id="status">
+      <h2>Status of This Document</h2>
+      <p>This is a <strong>Draft Specification</strong>. It has not been reviewed or endorsed by any standards body. Implementation feedback is welcome via <a href="https://github.com/awktavian/agent-data-pod/issues">GitHub Issues</a>.</p>
+    </section>
+
+    <hr>
+
+    <!-- Conformance -->
+    <section id="conformance">
+      <h2>1. Conformance</h2>
+
+      <h3>1.1 Terminology</h3>
+      <p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="https://www.rfc-editor.org/rfc/rfc2119">RFC 2119</a>.</p>
+
+      <h3>1.2 Conformance Levels</h3>
+      <div class="table-wrapper">
+        <table>
+          <caption>Conformance levels and their requirements</caption>
+          <thead>
+            <tr><th scope="col">Level</th><th scope="col">Description</th><th scope="col">Requirements</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Minimal</strong></td>
+              <td>Basic Pod structure for agent data</td>
+              <td>A1-A5</td>
+            </tr>
+            <tr>
+              <td><strong>Standard</strong></td>
+              <td>Minimal + memory episodes, capabilities</td>
+              <td>Minimal + A6-A15</td>
+            </tr>
+            <tr>
+              <td><strong>Full</strong></td>
+              <td>Standard + encryption, audit trails</td>
+              <td>Standard + S1-S8</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- Pod Structure -->
+    <section id="pod-structure">
+      <h2>2. Pod Structure</h2>
+
+      <p>An Agent Data Pod extends a standard Solid Pod with agent-specific containers. The following structure MUST be used:</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Structure</span>
+          <button type="button" class="copy-btn" data-copy="pod-structure-code" aria-label="Copy Pod structure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
+        </div>
+        <pre><code id="pod-structure-code">/profile/card                  # WebID profile with agent:AIAgent type
+/private/
+  └── agent/
+      ├── memory/
+      │   └── episodes/        # Memory episodes (encrypted)
+      ├── state/               # Current agent state (encrypted)
+      └── audit/               # Audit trail entries
+/public/
+  └── agent/
+      ├── capabilities.ttl     # Capability declarations
+      └── ad.json              # ANP Agent Description</code></pre>
+      </div>
+
+      <h3 id="a1">2.1 [A1] Agent Profile</h3>
+      <p>The Pod profile at <code>/profile/card</code> MUST include <code>agent:AIAgent</code> type and MAY include MCP endpoint and capability links.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Turtle</span>
+          <button type="button" class="copy-btn" data-copy="profile-example" aria-label="Copy profile example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
+        </div>
+        <pre><code id="profile-example">@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
+@prefix agent: &lt;https://awktavian.github.io/web/vocab#&gt; .
+@prefix schema: &lt;https://schema.org/&gt; .
+
+&lt;#me&gt;
+    a foaf:Agent, agent:AIAgent ;
+    foaf:name "Personal Assistant" ;
+    schema:identifier &lt;did:wba:example.com:user:agent-001&gt; ;
+    agent:mcpEndpoint &lt;wss://api.example.com/mcp/agent-001&gt; ;
+    agent:capabilities &lt;/public/agent/capabilities.ttl#caps&gt; .</code></pre>
+      </div>
+
+      <h3 id="a2">2.2 [A2] Private Containers</h3>
+      <p>The <code>/private/agent/</code> container MUST have access restricted to the Pod owner and explicitly authorized agents.</p>
+
+      <h3 id="a3">2.3 [A3] Public Containers</h3>
+      <p>The <code>/public/agent/</code> container MAY be readable by any authenticated agent for discovery purposes.</p>
+    </section>
+
+    <hr>
+
+    <!-- Memory Episodes -->
+    <section id="memory">
+      <h2>3. Memory Episodes</h2>
+
+      <h3 id="a4">3.1 [A4] Episode Format</h3>
+      <p>Each memory episode MUST be stored as a separate RDF resource with the following required properties:</p>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Required and optional properties for memory episodes</caption>
+          <thead>
+            <tr><th scope="col">Property</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>agent:content</code></td><td>xsd:string</td><td>MUST</td><td>Human-readable episode summary</td></tr>
+            <tr><td><code>dct:created</code></td><td>xsd:dateTime</td><td>MUST</td><td>ISO 8601 timestamp</td></tr>
+            <tr><td><code>agent:importance</code></td><td>xsd:decimal</td><td>SHOULD</td><td>0.0-1.0 relevance score</td></tr>
+            <tr><td><code>agent:memoryType</code></td><td>xsd:string</td><td>SHOULD</td><td>episodic, semantic, procedural, emotional, reflective</td></tr>
+            <tr><td><code>agent:embedding</code></td><td>xsd:base64Binary</td><td>MAY</td><td>Vector embedding (float32 LE)</td></tr>
+            <tr><td><code>agent:embeddingModel</code></td><td>xsd:string</td><td>MAY*</td><td>*MUST if embedding present</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="a5">3.2 [A5] Episode Example</h3>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Turtle</span>
+          <button type="button" class="copy-btn" data-copy="episode-example" aria-label="Copy episode example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
+        </div>
+        <pre><code id="episode-example">@prefix agent: &lt;https://awktavian.github.io/web/vocab#&gt; .
+@prefix dct: &lt;http://purl.org/dc/terms/&gt; .
+@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+
+&lt;&gt;
+    a agent:MemoryEpisode ;
+    agent:content "User prefers morning meetings before 10am." ;
+    dct:created "2026-02-01T09:30:00Z"^^xsd:dateTime ;
+    agent:importance "0.8"^^xsd:decimal ;
+    agent:memoryType "semantic" ;
+    agent:tag "preferences", "calendar" .</code></pre>
+      </div>
+
+      <h3>3.3 Memory Sector Taxonomy</h3>
+      <p>The <code>agent:memoryType</code> property aligns with OpenMemory HMD v2 (Human Memory Descriptor) taxonomy:</p>
+
+      <ul>
+        <li><strong>episodic</strong> — Autobiographical events and experiences</li>
+        <li><strong>semantic</strong> — Facts, concepts, and general knowledge</li>
+        <li><strong>procedural</strong> — How-to knowledge and learned processes</li>
+        <li><strong>emotional</strong> — Affective context and sentiment</li>
+        <li><strong>reflective</strong> — Meta-cognitive observations about own behavior</li>
+      </ul>
+    </section>
+
+    <hr>
+
+    <!-- Capabilities -->
+    <section id="capabilities">
+      <h2>4. Capabilities</h2>
+
+      <h3 id="a6">4.1 [A6] Capability Declarations</h3>
+      <p>Agents SHOULD declare their capabilities publicly at <code>/public/agent/capabilities.ttl</code>.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Turtle</span>
+          <button type="button" class="copy-btn" data-copy="caps-example" aria-label="Copy capabilities example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
+        </div>
+        <pre><code id="caps-example">@prefix agent: &lt;https://awktavian.github.io/web/vocab#&gt; .
+
+&lt;#caps&gt;
+    a agent:CapabilitySet ;
+    agent:capability [
+        a agent:Capability ;
+        agent:name "send_email" ;
+        agent:description "Send email on behalf of user" ;
+        agent:requiredPermission &lt;urn:solid:acl:Write&gt; ;
+        agent:protocol &lt;https://modelcontextprotocol.io/&gt;
+    ] .</code></pre>
+      </div>
+
+      <h3>4.2 did:wba Integration</h3>
+      <p>For Agent Network Protocol (ANP) compatibility, the profile MAY include <code>humanAuthorization</code> and <code>keyAgreement</code> verification methods. See <a href="interop.html">Interoperability Guide</a> for details.</p>
+    </section>
+
+    <hr>
+
+    <!-- Security -->
+    <section id="security">
+      <h2>5. Security Requirements</h2>
+
+      <h3 id="s1">5.1 [S1] Encryption at Rest</h3>
+      <p>Contents of <code>/private/agent/memory/</code> and <code>/private/agent/state/</code> MUST be encrypted using AES-256-GCM.</p>
+
+      <h3 id="s2">5.2 [S2] Key Derivation</h3>
+      <p>Encryption keys MUST be derived using HKDF-SHA256 from a master secret. The Pod URL SHOULD be used as context info.</p>
+
+      <h3 id="s3">5.3 [S3] Access Control</h3>
+      <p>Pods MUST implement either Web Access Control (WAC) or Access Control Policy (ACP) for authorization.</p>
+
+      <h3 id="s4">5.4 [S4] Audit Trail</h3>
+      <p>All modifications to memory episodes MUST be logged in <code>/private/agent/audit/</code> with PROV-O compatible provenance.</p>
+
+      <h3 id="s5">5.5 [S5] Integrity Verification</h3>
+      <p>Resources SHOULD include cryptographic content hashes using RDFC-1.0 canonicalization and N-Quads serialization.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Turtle</span>
+          <button type="button" class="copy-btn" data-copy="audit-example" aria-label="Copy audit example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
+        </div>
+        <pre><code id="audit-example">&lt;&gt;
+    agent:contentHash "sha256-uU0nuZNNPgilLlLX2n2r+sSE7+N6U4DukIj3rOLvzek=" ;
+    agent:signature "lDkEZ7f9dRvGj5kNpPiXmLqRqYT8oKvT3mLZjQ1nXw4..."^^xsd:base64Binary ;
+    agent:signedBy &lt;/profile/card#me&gt; .</code></pre>
+      </div>
+
+      <h3 id="s6">5.6 [S6] Signature Algorithms</h3>
+      <p>Implementations MUST support the following verification key types:</p>
+      <ul>
+        <li><strong>Ed25519VerificationKey2020</strong> — RECOMMENDED</li>
+        <li><strong>EcdsaSecp256k1VerificationKey2019</strong> — MUST be supported for did:wba compatibility</li>
+        <li><strong>JsonWebKey2020</strong> — MAY be supported</li>
+      </ul>
+
+      <h3 id="s7">5.7 [S7] DPoP Token Binding</h3>
+      <p>Authenticated requests SHOULD use DPoP-bound access tokens per RFC 9449.</p>
+
+      <h3 id="s8">5.8 [S8] Multi-User Considerations</h3>
+      <p>When multiple users share a Pod server, agent data MUST be isolated. Cross-user access MUST require explicit WAC/ACP grants.</p>
+    </section>
+
+    <hr>
+
+    <!-- References -->
+    <section id="references">
+      <h2>6. References</h2>
+
+      <h3>Normative References</h3>
+      <dl>
+        <dt>[RFC2119]</dt>
+        <dd>Key words for use in RFCs to Indicate Requirement Levels. <a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a></dd>
+
+        <dt>[SOLID-PROTOCOL]</dt>
+        <dd>Solid Protocol, Version 0.11.0. <a href="https://solidproject.org/TR/protocol">https://solidproject.org/TR/protocol</a></dd>
+
+        <dt>[WAC]</dt>
+        <dd>Web Access Control. <a href="https://solid.github.io/web-access-control-spec/">https://solid.github.io/web-access-control-spec/</a></dd>
+
+        <dt>[PROV-O]</dt>
+        <dd>PROV-O: The PROV Ontology. <a href="https://www.w3.org/TR/prov-o/">https://www.w3.org/TR/prov-o/</a></dd>
+
+        <dt>[RDFC-1.0]</dt>
+        <dd>RDF Dataset Canonicalization. <a href="https://w3c.github.io/rdf-canon/spec/">https://w3c.github.io/rdf-canon/spec/</a></dd>
+      </dl>
+
+      <h3>Informative References</h3>
+      <dl>
+        <dt>[DID-WBA]</dt>
+        <dd>ANP did:wba Method. <a href="https://agentnetworkprotocol.com/en/specs/03-did-wba-method-specification/">https://agentnetworkprotocol.com/en/specs/03-did-wba-method-specification/</a></dd>
+
+        <dt>[A2A]</dt>
+        <dd>Agent2Agent Protocol. <a href="https://a2a-protocol.org/latest/specification/">https://a2a-protocol.org/latest/specification/</a></dd>
+
+        <dt>[MCP]</dt>
+        <dd>Model Context Protocol. <a href="https://modelcontextprotocol.io/">https://modelcontextprotocol.io/</a></dd>
+      </dl>
+    </section>
+
+    <hr>
+
+    <p class="tagline"><em>Questions? <a href="https://github.com/awktavian/agent-data-pod/issues">File an issue</a> or see the <a href="paper.html">W3C position paper</a>.</em></p>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <svg viewBox="0 0 32 32" fill="none"><rect x="4" y="8" width="24" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M4 12L16 18L28 12" stroke="currentColor" stroke-width="2"/><path d="M16 18V26" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="5" r="2" fill="currentColor"/></svg>
+          <span class="footer-title">Agent Data Pod</span>
+        </div>
+        <p class="footer-tagline">A profile of the Solid Protocol for AI agent data.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col"><h4>Specification</h4><ul><li><a href="spec.html">Full Spec</a></li><li><a href="vocab.html">RDF Vocabulary</a></li><li><a href="paper.html">W3C Position</a></li><li><a href="vocab.ttl" download>Download .ttl</a></li></ul></div>
+        <div class="footer-col"><h4>Developers</h4><ul><li><a href="interop.html">Interoperability</a></li><li><a href="migration.html">Migration Guide</a></li><li><a href="changelog.html">Changelog</a></li></ul></div>
+        <div class="footer-col"><h4>Community</h4><ul><li><a href="https://github.com/awktavian/agent-data-pod">GitHub</a></li><li><a href="https://solidproject.org/">Solid Project</a></li><li><a href="https://www.w3.org/community/agentprotocol/">W3C AI Agent CG</a></li></ul></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>CC BY 4.0 · 2026 Timothy Jacoby</p></div>
+  </footer>
+
+  <div id="copy-status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+  <script src="script.js"></script>
+</body>
+</html>
