@@ -1,0 +1,26 @@
+{
+  "name": "agent-data-pod-spec",
+  "version": "0.2.0",
+  "description": "Agent Data Pod Specification — A profile of the Solid Protocol for AI agent data storage",
+  "scripts": {
+    "validate": "npm run validate:html && npm run validate:css",
+    "validate:html": "html-validate *.html",
+    "validate:css": "stylelint style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awkronos/web.git"
+  },
+  "keywords": ["solid", "agent", "ai", "rdf", "specification"],
+  "author": "Timothy Jacoby <tim@awkronos.com>",
+  "license": "CC-BY-4.0",
+  "bugs": {
+    "url": "https://github.com/awkronos/web/issues"
+  },
+  "homepage": "https://awkronos.github.io/web/",
+  "devDependencies": {
+    "html-validate": "^10.7.0",
+    "stylelint": "^17.1.1",
+    "stylelint-config-standard": "^40.0.0"
+  }
+}

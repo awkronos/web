@@ -9,8 +9,8 @@
 
 :root {
   /* Typography */
-  --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'IBM Plex Mono', 'SF Mono', Consolas, monospace;
+  --font-sans: 'IBM Plex Sans', -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', consolas, monospace;
 
   /* Type Scale (1.25 ratio) */
   --text-xs: 0.75rem;     /* 12px */
@@ -41,7 +41,7 @@
 
   /* Light Theme Colors */
   --bg: #FAFAF9;
-  --bg-elevated: #FFFFFF;
+  --bg-elevated: #FFF;
   --bg-code: #F5F5F4;
   --text: #1C1917;
   --text-secondary: #57534E;
@@ -70,7 +70,7 @@
     --text-tertiary: #78716C;
     --accent: #2DD4BF;
     --accent-hover: #5EEAD4;
-    --accent-subtle: rgba(45, 212, 191, 0.15);
+    --accent-subtle: rgb(45 212 191 / 15%);
     --border: #292524;
     --border-strong: #44403C;
   }
@@ -79,7 +79,7 @@
 /* Manual Theme Override */
 [data-theme="light"] {
   --bg: #FAFAF9;
-  --bg-elevated: #FFFFFF;
+  --bg-elevated: #FFF;
   --bg-code: #F5F5F4;
   --text: #1C1917;
   --text-secondary: #57534E;
@@ -100,7 +100,7 @@
   --text-tertiary: #78716C;
   --accent: #2DD4BF;
   --accent-hover: #5EEAD4;
-  --accent-subtle: rgba(45, 212, 191, 0.15);
+  --accent-subtle: rgb(45 212 191 / 15%);
   --border: #292524;
   --border-strong: #44403C;
 }
@@ -123,6 +123,7 @@ html {
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
@@ -325,7 +326,7 @@ nav {
   height: 24px;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .nav-toggle {
     display: flex;
     align-items: center;
@@ -346,7 +347,7 @@ nav {
     opacity: 0;
     visibility: hidden;
     transition: transform var(--dur-233), opacity var(--dur-233), visibility var(--dur-233);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
   }
 
   .nav-links.open {
@@ -447,7 +448,7 @@ nav {
   margin-bottom: var(--space-4);
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .hero h1 {
     font-size: var(--text-3xl);
   }
@@ -535,7 +536,7 @@ nav {
 .card:hover {
   border-color: var(--accent);
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 8%);
 }
 
 .card h3 {
@@ -632,6 +633,38 @@ nav {
     transform: none;
     transition: none;
   }
+}
+
+/* ==========================================================================
+   404 ERROR PAGE
+   ========================================================================== */
+
+.error-page {
+  text-align: center;
+  padding: var(--space-16) var(--space-4);
+}
+
+.error-code {
+  font-size: 6rem;
+  margin-bottom: var(--space-4);
+  color: var(--text-tertiary);
+}
+
+.error-title {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-4);
+}
+
+.error-message {
+  max-width: 28rem;
+  margin: 0 auto var(--space-8);
+}
+
+.error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  justify-content: center;
 }
 
 /* ==========================================================================
@@ -923,7 +956,7 @@ pre code {
 
 .btn-primary:hover {
   background: var(--accent-hover);
-  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+  box-shadow: 0 4px 12px rgb(13 148 136 / 30%);
 }
 
 .btn-secondary {
@@ -956,7 +989,7 @@ footer {
   gap: var(--space-6);
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .footer-container {
     grid-template-columns: 1.5fr 2fr;
   }
@@ -1049,7 +1082,7 @@ footer {
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
 }
