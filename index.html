@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Agent Data Pod — Specification for AI Agent Storage in Solid Pods</title>
-  <meta name="description" content="Open specification for storing AI agent memory, state, and capabilities in user-controlled Solid Pods.">
+  <title>Agent Data Pod — Portable AI Agent Storage on Solid</title>
+  <meta name="description" content="Open specification for storing AI agent memory, state, and capabilities in user-controlled Solid Pods. Portable, private, interoperable.">
 
   <!-- Open Graph -->
   <meta property="og:title" content="Agent Data Pod Specification">
@@ -48,9 +48,9 @@
       </button>
 
       <ul class="nav-links" id="nav-links">
-        <li><a href="spec.html">Spec</a></li>
-        <li><a href="vocab.html">Vocab</a></li>
-        <li><a href="paper.html">W3C</a></li>
+        <li><a href="spec.html">Specification</a></li>
+        <li><a href="vocab.html">Vocabulary</a></li>
+        <li><a href="paper.html">W3C Paper</a></li>
         <li><a href="interop.html">Interop</a></li>
         <li><a href="https://github.com/awkronos/web" aria-label="GitHub repository">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -82,159 +82,315 @@
   <main id="main">
     <!-- Hero -->
     <section class="hero">
-      <span class="hero-badge">Draft Specification v0.2</span>
-      <h1>Agent Data Pod</h1>
-      <p class="hero-tagline">A profile of the Solid Protocol for storing AI agent memory, state, and capabilities in user-controlled Pods.</p>
+      <div class="hero-content">
+        <span class="hero-badge">
+          <span class="badge-dot"></span>
+          Draft Specification v0.2
+        </span>
+        <h1>Your AI Agent's Memory,<br><span class="gradient-text">Under Your Control</span></h1>
+        <p class="hero-tagline">An open specification for portable, private AI agent data. Store memory, capabilities, and state in user-controlled Solid Pods.</p>
 
-      <div class="hero-diagram" role="img" aria-label="Diagram showing Pod structure">┌─────────────────────────────┐
-│         SOLID POD           │
-│   /private/agent/memory/    │
-│   /private/agent/audit/     │
-│   /public/agent/caps.ttl    │
-└─────────────┬───────────────┘
-              │
-    ┌─────────┴─────────┐
-    ▼                   ▼
-┌─────────┐       ┌─────────┐
-│ Agent A │       │ Agent B │
-└─────────┘       └─────────┘
-  Portable across implementations</div>
+        <div class="hero-actions">
+          <a href="spec.html" class="btn btn-primary">
+            Read Specification
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+          <a href="https://github.com/awkronos/web" class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            View on GitHub
+          </a>
+        </div>
+      </div>
 
-      <div class="hero-actions">
-        <a href="spec.html" class="btn btn-primary">
-          Read the Specification
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <!-- Architecture Diagram -->
+      <div class="hero-visual">
+        <svg class="architecture-diagram" viewBox="0 0 400 280" fill="none" role="img" aria-label="Architecture diagram showing Solid Pod connecting to multiple AI agents">
+          <!-- Pod Container -->
+          <rect x="100" y="20" width="200" height="120" rx="12" fill="var(--bg-elevated)" stroke="var(--border-strong)" stroke-width="2"/>
+          <text x="200" y="48" text-anchor="middle" class="diagram-title">Solid Pod</text>
+
+          <!-- Pod Contents -->
+          <g class="diagram-contents">
+            <rect x="120" y="60" width="160" height="24" rx="4" fill="var(--accent-subtle)"/>
+            <text x="130" y="76" class="diagram-path">/private/agent/memory/</text>
+
+            <rect x="120" y="90" width="160" height="24" rx="4" fill="var(--accent-subtle)"/>
+            <text x="130" y="106" class="diagram-path">/public/agent/caps.ttl</text>
+          </g>
+
+          <!-- Connection Lines -->
+          <path d="M200 140 L200 170 M200 170 L120 200 M200 170 L280 200" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 4"/>
+
+          <!-- Agent A -->
+          <g class="diagram-agent">
+            <rect x="60" y="200" width="120" height="60" rx="8" fill="var(--bg-elevated)" stroke="var(--accent)" stroke-width="2"/>
+            <circle cx="90" cy="230" r="12" fill="var(--accent-subtle)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="90" y="234" text-anchor="middle" class="diagram-icon">A</text>
+            <text x="140" y="226" class="diagram-label">Agent A</text>
+            <text x="140" y="242" class="diagram-sublabel">Claude</text>
+          </g>
+
+          <!-- Agent B -->
+          <g class="diagram-agent">
+            <rect x="220" y="200" width="120" height="60" rx="8" fill="var(--bg-elevated)" stroke="var(--accent)" stroke-width="2"/>
+            <circle cx="250" cy="230" r="12" fill="var(--accent-subtle)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="250" y="234" text-anchor="middle" class="diagram-icon">B</text>
+            <text x="300" y="226" class="diagram-label">Agent B</text>
+            <text x="300" y="242" class="diagram-sublabel">GPT</text>
+          </g>
+
+          <!-- Portable Badge -->
+          <rect x="130" y="268" width="140" height="20" rx="10" fill="var(--accent)" opacity="0.1"/>
+          <text x="200" y="282" text-anchor="middle" class="diagram-badge">Portable across implementations</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Problem Statement -->
+    <section class="content-section">
+      <div class="section-header">
+        <span class="section-eyebrow">The Problem</span>
+        <h2>Agent data is siloed</h2>
+      </div>
+      <div class="section-body">
+        <p class="large-text">AI agents accumulate valuable context—your preferences, interaction history, learned behaviors. Today, this data is locked in vendor-specific formats within proprietary infrastructure.</p>
+        <div class="problem-grid">
+          <div class="problem-item">
+            <div class="problem-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M3 9h18M9 21V9"/>
+              </svg>
+            </div>
+            <h4>Vendor Lock-in</h4>
+            <p>Switching providers means starting from scratch</p>
+          </div>
+          <div class="problem-item">
+            <div class="problem-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+            <h4>No Audit Trail</h4>
+            <p>Users can't review what agents have learned</p>
+          </div>
+          <div class="problem-item">
+            <div class="problem-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <h4>No Sharing</h4>
+            <p>Context can't move between different agents</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Design Principles -->
+    <section class="content-section alt-bg">
+      <div class="section-header">
+        <span class="section-eyebrow">Our Approach</span>
+        <h2>Design principles</h2>
+      </div>
+      <div class="principles-grid">
+        <article class="principle-card">
+          <div class="principle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </svg>
+          </div>
+          <h3>Portable</h3>
+          <p>Switch between AI providers without losing accumulated context. Your data follows you, not your vendor.</p>
+        </article>
+
+        <article class="principle-card">
+          <div class="principle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <h3>Private</h3>
+          <p>Data encrypted by default. You control who sees what through granular, explicit permissions.</p>
+        </article>
+
+        <article class="principle-card">
+          <div class="principle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </div>
+          <h3>Interoperable</h3>
+          <p>Built on W3C standards: Solid Protocol, RDF, DIDs. Works with existing web infrastructure.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Standards Foundation -->
+    <section class="content-section">
+      <div class="section-header">
+        <span class="section-eyebrow">Foundation</span>
+        <h2>Built on open standards</h2>
+      </div>
+      <div class="standards-list">
+        <a href="https://solidproject.org/TR/protocol" class="standard-item">
+          <div class="standard-logo">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+            </svg>
+          </div>
+          <div class="standard-info">
+            <h4>Solid Protocol</h4>
+            <p>Container structure, access control, authentication</p>
+          </div>
+          <svg class="standard-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
         </a>
-        <a href="https://github.com/awkronos/web" class="btn btn-secondary">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+
+        <a href="https://www.w3.org/TR/did-core/" class="standard-item">
+          <div class="standard-logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div class="standard-info">
+            <h4>W3C DIDs</h4>
+            <p>Decentralized agent identity (did:key, did:web, did:wba)</p>
+          </div>
+          <svg class="standard-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
-          View on GitHub
         </a>
-      </div>
-    </section>
 
-    <hr class="section-divider">
+        <a href="https://www.w3.org/TR/prov-o/" class="standard-item">
+          <div class="standard-logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 20h9"/>
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+            </svg>
+          </div>
+          <div class="standard-info">
+            <h4>PROV-O</h4>
+            <p>Audit trail provenance chain</p>
+          </div>
+          <svg class="standard-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
 
-    <!-- Problem -->
-    <section class="landing-section reveal">
-      <span class="section-label">Motivation</span>
-      <h2>Agent data portability</h2>
-      <p>AI agents accumulate context about users—preferences, interaction history, learned behaviors. This data is typically stored in vendor-specific formats within proprietary infrastructure. Users cannot migrate this context when switching providers, audit what their agent has learned, or share context selectively with other agents.</p>
-      <p>This specification addresses the data storage layer, complementing the <a href="https://www.w3.org/community/agentprotocol/">W3C AI Agent Protocol Community Group's</a> work on agent identity, discovery, and communication.</p>
-    </section>
-
-    <!-- Design Goals -->
-    <section class="landing-section">
-      <span class="section-label reveal">Design Goals</span>
-      <h2 class="reveal">Specification objectives</h2>
-
-      <div class="card-grid stagger">
-        <div class="card">
-          <h3>Portability</h3>
-          <p>Enable users to migrate between agent implementations without losing accumulated context. Agents read a common format from user-controlled storage.</p>
-        </div>
-
-        <div class="card">
-          <h3>Privacy</h3>
-          <p>Agent data is private by default. Users grant explicit, granular permissions. Encryption at rest is specified for sensitive containers.</p>
-        </div>
-
-        <div class="card">
-          <h3>Interoperability</h3>
-          <p>Built on Solid Protocol, RDF, and established W3C standards. Vocabulary extends FOAF and PROV-O for maximum compatibility.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Built on -->
-    <section class="landing-section">
-      <span class="section-label reveal">Foundation</span>
-      <h2 class="reveal">Built on open standards</h2>
-
-      <div class="table-wrapper reveal">
-        <table>
-          <caption class="sr-only">Standards used in the Agent Data Pod specification</caption>
-          <thead>
-            <tr>
-              <th scope="col">Standard</th>
-              <th scope="col">Role in Specification</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><a href="https://solidproject.org/TR/protocol">Solid Protocol</a></td>
-              <td>Container structure, access control, authentication</td>
-            </tr>
-            <tr>
-              <td><a href="https://www.w3.org/TR/did-core/">W3C DIDs</a></td>
-              <td>Decentralized agent identity (<code>did:key</code>, <code>did:web</code>, <code>did:wba</code>)</td>
-            </tr>
-            <tr>
-              <td><a href="https://www.w3.org/TR/prov-o/">PROV-O</a></td>
-              <td>Audit trail provenance chain</td>
-            </tr>
-            <tr>
-              <td><a href="https://modelcontextprotocol.io/">Model Context Protocol</a></td>
-              <td>Capability endpoint integration</td>
-            </tr>
-          </tbody>
-        </table>
+        <a href="https://modelcontextprotocol.io/" class="standard-item">
+          <div class="standard-logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <div class="standard-info">
+            <h4>Model Context Protocol</h4>
+            <p>Capability endpoint integration</p>
+          </div>
+          <svg class="standard-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
       </div>
     </section>
 
     <!-- Documentation -->
-    <section class="landing-section">
-      <span class="section-label reveal">Documentation</span>
-      <h2 class="reveal">Specification documents</h2>
-
-      <div class="card-grid stagger">
-        <div class="card">
-          <h3>Full Specification</h3>
-          <p>Pod structure, data formats, access control patterns, conformance requirements, security considerations.</p>
-          <a href="spec.html" class="card-link">
-            Read specification
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
+    <section class="content-section alt-bg">
+      <div class="section-header">
+        <span class="section-eyebrow">Documentation</span>
+        <h2>Get started</h2>
+      </div>
+      <div class="docs-grid">
+        <a href="spec.html" class="doc-card doc-card-primary">
+          <div class="doc-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
             </svg>
-          </a>
-        </div>
+          </div>
+          <div class="doc-card-content">
+            <h3>Full Specification</h3>
+            <p>Pod structure, data formats, access control, conformance requirements, and security considerations.</p>
+          </div>
+          <span class="doc-card-action">Read spec →</span>
+        </a>
 
-        <div class="card">
-          <h3>RDF Vocabulary</h3>
-          <p>Classes, properties, and SHACL validation shapes for agent data. Extends FOAF and PROV-O.</p>
-          <a href="vocab.html" class="card-link">
-            View vocabulary
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
+        <a href="vocab.html" class="doc-card">
+          <div class="doc-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <ellipse cx="12" cy="5" rx="9" ry="3"/>
+              <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
             </svg>
-          </a>
-        </div>
+          </div>
+          <div class="doc-card-content">
+            <h3>RDF Vocabulary</h3>
+            <p>Classes, properties, and SHACL shapes. Extends FOAF and PROV-O.</p>
+          </div>
+          <span class="doc-card-action">View vocab →</span>
+        </a>
 
-        <div class="card">
-          <h3>W3C Position Paper</h3>
-          <p>Proposal to the AI Agent Protocol Community Group. Alignment with CG work items.</p>
-          <a href="paper.html" class="card-link">
-            Read paper
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
+        <a href="paper.html" class="doc-card">
+          <div class="doc-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
             </svg>
-          </a>
-        </div>
+          </div>
+          <div class="doc-card-content">
+            <h3>W3C Position Paper</h3>
+            <p>Proposal to the AI Agent Protocol Community Group.</p>
+          </div>
+          <span class="doc-card-action">Read paper →</span>
+        </a>
+
+        <a href="interop.html" class="doc-card">
+          <div class="doc-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="9" height="9" rx="2"/>
+              <rect x="13" y="2" width="9" height="9" rx="2"/>
+              <rect x="2" y="13" width="9" height="9" rx="2"/>
+              <rect x="13" y="13" width="9" height="9" rx="2"/>
+            </svg>
+          </div>
+          <div class="doc-card-content">
+            <h3>Interoperability</h3>
+            <p>Integration with ANP, A2A, MCP, and other protocols.</p>
+          </div>
+          <span class="doc-card-action">View guide →</span>
+        </a>
       </div>
     </section>
 
     <!-- CTA -->
-    <section class="landing-section cta-section reveal">
-      <span class="section-label">Participate</span>
-      <h2>Implementation and feedback</h2>
-      <p>The specification is in draft status. Implementation feedback and contributions are welcome via GitHub.</p>
-
-      <div class="hero-actions">
-        <a href="spec.html" class="btn btn-primary">Read the Specification</a>
-        <a href="https://github.com/awkronos/web/issues" class="btn btn-secondary">File an Issue</a>
+    <section class="cta-section">
+      <div class="cta-content">
+        <h2>Help shape the future of agent data</h2>
+        <p>The specification is in draft status. Implementation feedback and contributions are welcome.</p>
+        <div class="cta-actions">
+          <a href="spec.html" class="btn btn-primary">Read the Specification</a>
+          <a href="https://github.com/awkronos/web/issues" class="btn btn-secondary">File an Issue</a>
+        </div>
       </div>
     </section>
   </main>
