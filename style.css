@@ -420,32 +420,35 @@ nav {
 /* Hero Section */
 .hero {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-8);
+  grid-template-columns: 1.1fr 1fr;
+  gap: var(--space-10);
   align-items: center;
-  padding: var(--space-10) var(--space-4);
+  padding: var(--space-10) var(--space-6);
   max-width: 72rem;
   margin: 0 auto;
+  overflow: hidden;
 }
 
-@media (width <= 900px) {
+@media (width <= 1024px) {
   .hero {
     grid-template-columns: 1fr;
     text-align: center;
+    gap: var(--space-8);
+    padding: var(--space-8) var(--space-4);
   }
 
   .hero-visual {
     order: -1;
-    max-width: 400px;
+    max-width: 360px;
     margin: 0 auto;
   }
 }
 
 .hero-content {
-  max-width: 32rem;
+  max-width: 34rem;
 }
 
-@media (width <= 900px) {
+@media (width <= 1024px) {
   .hero-content {
     max-width: none;
   }
@@ -530,12 +533,13 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: var(--space-4);
 }
 
 .architecture-diagram {
   width: 100%;
   height: auto;
-  max-width: 400px;
+  max-width: 340px;
 }
 
 .architecture-diagram text {
