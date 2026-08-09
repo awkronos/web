@@ -202,64 +202,6 @@ const initCopyButtons = () => {
 };
 
 // ==========================================================================
-// Active TOC Highlighting
-// ==========================================================================
-
-const initTOC = () => {
-  const toc = document.getElementById('toc');
-  if (!toc) return;
-
-  const headings = document.querySelectorAll('h2[id], h3[id]');
-  const tocLinks = toc.querySelectorAll('a');
-
-  if (headings.length === 0) return;
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        tocLinks.forEach(link => {
-          const isActive = link.getAttribute('href') === '#' + entry.target.id;
-          link.classList.toggle('active', isActive);
-          if (isActive) {
-            link.setAttribute('aria-current', 'true');
-          } else {
-            link.removeAttribute('aria-current');
-          }
-        });
-      }
-    });
-  }, { rootMargin: '-20% 0% -80% 0%' });
-
-  headings.forEach(h => observer.observe(h));
-};
-
-// ==========================================================================
-// Reveal on Scroll Animation
-// ==========================================================================
-
-const initRevealAnimations = () => {
-  const elements = document.querySelectorAll('.reveal, .stagger');
-  if (elements.length === 0) return;
-
-  // Check for reduced motion preference
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    // Just show everything immediately
-    elements.forEach(el => el.classList.add('visible'));
-    return;
-  }
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-  elements.forEach(el => observer.observe(el));
-};
-
-// ==========================================================================
 // External Link Icons
 // ==========================================================================
 
@@ -287,7 +229,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initProgressBar();
   initCopyButtons();
-  initTOC();
-  initRevealAnimations();
   initExternalLinks();
 });
