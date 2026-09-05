@@ -1,0 +1,76 @@
+name: Deploy to GitHub Pages
+
+# Restored. `bc104f2` ("checkpoint: preserve current workspace state",
+# Chronos Bot, 2026-05-18) deleted this file as part of banking a dirty
+# working tree, and with it went every signal from this repo: the last run
+# was 2026-04-02 and an external health census read the site as 155 days
+# stale. A checkpoint commit must not be able to retire a repository's only
+# gate silently.
+#
+# Two changes on restore:
+#  - the deploy is now gated on `npm run validate` (html-validate +
+#    stylelint), which the repo has always defined and CI never ran, so a
+#    broken page cannot publish;
+#  - a daily schedule, because a static site that nobody pushes to otherwise
+#    reports nothing at all about whether it still builds and deploys.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: "53 13 * * *"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    # Measured 2026-09-04: `npm ci` plus `npm run validate` completes in
+    # well under a minute. Ten minutes bounds a hung registry fetch.
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Validate HTML and CSS
+        run: npm run validate
+
+  deploy:
+    needs: validate
+    # A pull request validates but must never publish.
+    if: github.event_name != 'pull_request'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        with:
+          enablement: true
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "."
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
