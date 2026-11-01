@@ -46,9 +46,10 @@
   --text: #1C1917;
   --text-secondary: #57534E;
   --text-tertiary: #737373;
-  --accent: #0D9488;
-  --accent-hover: #0F766E;
+  --accent: #0F766E;
+  --accent-hover: #115E59;
   --accent-subtle: #CCFBF1;
+  --accent-ink: #FFF;
   --border: #E7E5E4;
   --border-strong: #D6D3D1;
   --success: #16A34A;
@@ -67,10 +68,11 @@
     --bg-code: #292524;
     --text: #FAFAF9;
     --text-secondary: #A8A29E;
-    --text-tertiary: #78716C;
+    --text-tertiary: #9C958F;
     --accent: #2DD4BF;
     --accent-hover: #5EEAD4;
     --accent-subtle: rgb(45 212 191 / 15%);
+    --accent-ink: var(--bg);
     --border: #292524;
     --border-strong: #44403C;
   }
@@ -84,9 +86,10 @@
   --text: #1C1917;
   --text-secondary: #57534E;
   --text-tertiary: #737373;
-  --accent: #0D9488;
-  --accent-hover: #0F766E;
+  --accent: #0F766E;
+  --accent-hover: #115E59;
   --accent-subtle: #CCFBF1;
+  --accent-ink: #FFF;
   --border: #E7E5E4;
   --border-strong: #D6D3D1;
 }
@@ -97,10 +100,11 @@
   --bg-code: #292524;
   --text: #FAFAF9;
   --text-secondary: #A8A29E;
-  --text-tertiary: #78716C;
+  --text-tertiary: #9C958F;
   --accent: #2DD4BF;
   --accent-hover: #5EEAD4;
   --accent-subtle: rgb(45 212 191 / 15%);
+  --accent-ink: var(--bg);
   --border: #292524;
   --border-strong: #44403C;
 }
@@ -192,7 +196,7 @@ button:focus-visible,
   top: -3rem;
   left: 1rem;
   background: var(--accent);
-  color: white;
+  color: var(--accent-ink);
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   z-index: 1000;
@@ -872,7 +876,7 @@ nav {
   width: 64px;
   height: 64px;
   background: var(--accent);
-  color: white;
+  color: var(--accent-ink);
 }
 
 .doc-card-icon svg {
@@ -1016,6 +1020,7 @@ p {
 a {
   color: var(--accent);
   text-decoration: none;
+  overflow-wrap: anywhere;
   transition: color var(--dur-89);
 }
 
@@ -1023,11 +1028,28 @@ a:hover {
   text-decoration: underline;
 }
 
+/* PRODUCT-POLISH-1101: links inside running text need a non-color cue (WCAG 1.4.1) and scrollable regions a keyboard stop */
+main p a:not([class]),
+main li a:not([class]),
+main dd a:not([class]),
+main td a:not([class]),
+footer p a:not([class]) {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.table-wrapper:focus-visible,
+pre:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
 strong {
   font-weight: 600;
 }
 
 code {
+  overflow-wrap: anywhere;
   font-family: var(--font-mono);
   font-size: 0.9em;
   background: var(--bg-code);
@@ -1182,7 +1204,7 @@ tbody tr:hover {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
 }
 
 .copy-btn {
@@ -1230,6 +1252,7 @@ pre {
 }
 
 pre code {
+  overflow-wrap: normal;
   background: none;
   padding: 0;
   font-size: var(--text-base);
@@ -1268,12 +1291,12 @@ pre code {
 
 .btn-primary {
   background: var(--accent);
-  color: white;
+  color: var(--accent-ink);
 }
 
 .btn-primary:hover {
   background: var(--accent-hover);
-  box-shadow: 0 4px 12px rgb(13 148 136 / 30%);
+  box-shadow: 0 4px 12px rgb(15 118 110 / 30%);
 }
 
 .btn-secondary {

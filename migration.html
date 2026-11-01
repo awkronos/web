@@ -92,7 +92,7 @@
           <span class="code-lang">JSON</span>
           <button type="button" class="copy-btn" data-copy="source-json" aria-label="Copy JSON chat history example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
         </div>
-        <pre><code id="source-json">{
+        <pre tabindex="0"><code id="source-json">{
   "messages": [
     {
       "id": "msg-001",
@@ -116,7 +116,7 @@
           <span class="code-lang">Turtle</span>
           <button type="button" class="copy-btn" data-copy="target-turtle" aria-label="Copy Turtle format example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
         </div>
-        <pre><code id="target-turtle">@prefix agent: &lt;https://awkronos.github.io/web/vocab#&gt; .
+        <pre tabindex="0"><code id="target-turtle">@prefix agent: &lt;https://awkronos.github.io/web/vocab#&gt; .
 @prefix dct: &lt;http://purl.org/dc/terms/&gt; .
 @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
 
@@ -137,7 +137,7 @@
           <span class="code-lang">SQL</span>
           <button type="button" class="copy-btn" data-copy="source-sql" aria-label="Copy SQL schema example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
         </div>
-        <pre><code id="source-sql">CREATE TABLE agent_memory (
+        <pre tabindex="0"><code id="source-sql">CREATE TABLE agent_memory (
     id TEXT PRIMARY KEY,
     content TEXT NOT NULL,
     importance REAL,
@@ -168,7 +168,7 @@ ORDER BY created_at;</code></pre>
           <span class="code-lang">Python</span>
           <button type="button" class="copy-btn" data-copy="langchain" aria-label="Copy LangChain conversion example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
         </div>
-        <pre><code id="langchain">from langchain.memory import ConversationBufferMemory
+        <pre tabindex="0"><code id="langchain">from langchain.memory import ConversationBufferMemory
 
 def convert_langchain_memory(memory) -&gt; list:
     """Convert LangChain memory to Agent Data Pod format."""
@@ -191,8 +191,8 @@ def convert_langchain_memory(memory) -&gt; list:
       <h2>Embedding Migration</h2>
 
       <h3>Compatible Formats</h3>
-      <div class="table-wrapper">
-        <table>
+      <section class="table-wrapper" aria-label="Embedding model compatibility matrix" tabindex="0">
+<table>
           <caption>Embedding model compatibility matrix</caption>
           <thead>
             <tr><th scope="col">Source</th><th scope="col">Dimensions</th><th scope="col">Format</th><th scope="col">Compatible?</th></tr>
@@ -205,7 +205,7 @@ def convert_langchain_memory(memory) -&gt; list:
             <tr><td>Custom</td><td>Any</td><td>float32</td><td>Yes</td></tr>
           </tbody>
         </table>
-      </div>
+      </section>
 
       <h3>Embedding Conversion</h3>
       <div class="code-block">
@@ -213,7 +213,7 @@ def convert_langchain_memory(memory) -&gt; list:
           <span class="code-lang">Python</span>
           <button type="button" class="copy-btn" data-copy="embedding-convert" aria-label="Copy embedding conversion code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
         </div>
-        <pre><code id="embedding-convert">import base64
+        <pre tabindex="0"><code id="embedding-convert">import base64
 import numpy as np
 
 def convert_embedding(embedding: list[float]) -&gt; str:
@@ -260,7 +260,7 @@ def create_episode_with_embedding(
           <span class="code-lang">Shell</span>
           <button type="button" class="copy-btn" data-copy="validation" aria-label="Copy SHACL validation commands"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
         </div>
-        <pre><code id="validation"># Using Apache Jena SHACL
+        <pre tabindex="0"><code id="validation"># Using Apache Jena SHACL
 shacl validate \
   --shapes https://awkronos.github.io/web/vocab.ttl \
   --data /path/to/episodes/*.ttl
@@ -270,8 +270,8 @@ pyshacl -s vocab.ttl -df turtle -d episodes/</code></pre>
       </div>
 
       <h3>Common Validation Errors</h3>
-      <div class="table-wrapper">
-        <table>
+      <section class="table-wrapper" aria-label="Common SHACL validation errors and solutions" tabindex="0">
+<table>
           <caption>Common SHACL validation errors and solutions</caption>
           <thead>
             <tr><th scope="col">Error</th><th scope="col">Cause</th><th scope="col">Fix</th></tr>
@@ -283,7 +283,7 @@ pyshacl -s vocab.ttl -df turtle -d episodes/</code></pre>
             <tr><td>Missing <code>agent:embeddingDim</code></td><td>Embedding without dimension</td><td>Add dimension count</td></tr>
           </tbody>
         </table>
-      </div>
+      </section>
     </section>
 
     <hr>
@@ -298,7 +298,7 @@ pyshacl -s vocab.ttl -df turtle -d episodes/</code></pre>
           <span class="code-lang">Python</span>
           <button type="button" class="copy-btn" data-copy="bulk" aria-label="Copy bulk migration code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
         </div>
-        <pre><code id="bulk">import asyncio
+        <pre tabindex="0"><code id="bulk">import asyncio
 import httpx
 
 async def bulk_migrate(
@@ -348,7 +348,7 @@ async def bulk_migrate(
           <span class="code-lang">Shell</span>
           <button type="button" class="copy-btn" data-copy="rollback" aria-label="Copy rollback command"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
         </div>
-        <pre><code id="rollback"># Delete all migrated episodes
+        <pre tabindex="0"><code id="rollback"># Delete all migrated episodes
 curl -X DELETE \
   -H "Authorization: Bearer $TOKEN" \
   "$POD_URL/private/agent/memory/episodes/"</code></pre>

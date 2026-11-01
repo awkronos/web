@@ -54,8 +54,8 @@
     <section>
       <h2>Protocol Compatibility Matrix</h2>
 
-      <div class="table-wrapper">
-        <table>
+      <section class="table-wrapper" aria-label="Protocol compatibility levels and integration points" tabindex="0">
+<table>
           <caption>Protocol compatibility levels and integration points</caption>
           <thead>
             <tr><th scope="col">Protocol</th><th scope="col">Support Level</th><th scope="col">Integration Points</th></tr>
@@ -88,7 +88,7 @@
             </tr>
           </tbody>
         </table>
-      </div>
+      </section>
     </section>
 
     <hr>
@@ -105,7 +105,7 @@
           <span class="code-lang">Turtle</span>
           <button type="button" class="copy-btn" data-copy="anp-profile" aria-label="Copy ANP profile integration example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
         </div>
-        <pre><code id="anp-profile">@prefix schema: &lt;https://schema.org/&gt; .
+        <pre tabindex="0"><code id="anp-profile">@prefix schema: &lt;https://schema.org/&gt; .
 @prefix agent: &lt;https://awkronos.github.io/web/vocab#&gt; .
 @prefix solid: &lt;http://www.w3.org/ns/solid/terms#&gt; .
 
@@ -125,7 +125,7 @@
           <span class="code-lang">JSON</span>
           <button type="button" class="copy-btn" data-copy="did-doc" aria-label="Copy DID Document example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
         </div>
-        <pre><code id="did-doc">{
+        <pre tabindex="0"><code id="did-doc">{
   "@context": "https://www.w3.org/ns/did/v1",
   "id": "did:wba:example.com:user:agent-001",
   "verificationMethod": [{
@@ -157,7 +157,7 @@
           <span class="code-lang">JSON-LD</span>
           <button type="button" class="copy-btn" data-copy="anp-ad" aria-label="Copy ANP Agent Description example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
         </div>
-        <pre><code id="anp-ad">{
+        <pre tabindex="0"><code id="anp-ad">{
   "@context": [
     "https://schema.org",
     "https://agentnetworkprotocol.com/ns"
@@ -193,7 +193,7 @@
           <span class="code-lang">JSON</span>
           <button type="button" class="copy-btn" data-copy="a2a-card" aria-label="Copy A2A Agent Card example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
         </div>
-        <pre><code id="a2a-card">{
+        <pre tabindex="0"><code id="a2a-card">{
   "name": "Personal Assistant",
   "description": "AI assistant for calendar and email management",
   "url": "https://example.com/user/",
@@ -239,15 +239,15 @@
           <span class="code-lang">Turtle</span>
           <button type="button" class="copy-btn" data-copy="mcp-endpoint" aria-label="Copy MCP endpoint example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
         </div>
-        <pre><code id="mcp-endpoint">&lt;#me&gt;
+        <pre tabindex="0"><code id="mcp-endpoint">&lt;#me&gt;
     agent:mcpEndpoint &lt;wss://api.example.com/mcp/agent-001&gt; .</code></pre>
       </div>
 
       <h3>Capability Mapping</h3>
       <p>MCP tools map directly to Agent Data Pod capabilities:</p>
 
-      <div class="table-wrapper">
-        <table>
+      <section class="table-wrapper" aria-label="Mapping between Agent Data Pod vocabulary and MCP concepts" tabindex="0">
+<table>
           <caption>Mapping between Agent Data Pod vocabulary and MCP concepts</caption>
           <thead>
             <tr><th scope="col">Agent Data Pod</th><th scope="col">MCP</th></tr>
@@ -259,7 +259,7 @@
             <tr><td><code>agent:requiredPermission</code></td><td>N/A (use Solid ACLs)</td></tr>
           </tbody>
         </table>
-      </div>
+      </section>
     </section>
 
     <hr>
@@ -270,8 +270,8 @@
       <h3>OpenMemory HMD v2 Alignment</h3>
       <p>Agent Data Pod memory sectors map to <a href="https://github.com/mem0ai/mem0">OpenMemory HMD v2</a> taxonomy:</p>
 
-      <div class="table-wrapper">
-        <table>
+      <section class="table-wrapper" aria-label="Memory type mapping to OpenMemory HMD v2 taxonomy" tabindex="0">
+<table>
           <caption>Memory type mapping to OpenMemory HMD v2 taxonomy</caption>
           <thead>
             <tr><th scope="col"><code>agent:memoryType</code></th><th scope="col">HMD v2 Sector</th><th scope="col">Description</th></tr>
@@ -284,7 +284,7 @@
             <tr><td><code>reflective</code></td><td>Reflective</td><td>Meta-cognitive observations</td></tr>
           </tbody>
         </table>
-      </div>
+      </section>
 
       <h3>Embedding Interoperability</h3>
       <p>When sharing embeddings across systems:</p>
@@ -310,8 +310,8 @@
       </ol>
 
       <h3>Error Response Codes</h3>
-      <div class="table-wrapper">
-        <table>
+      <section class="table-wrapper" aria-label="HTTP response codes and recommended actions" tabindex="0">
+<table>
           <caption>HTTP response codes and recommended actions</caption>
           <thead>
             <tr><th scope="col">HTTP Status</th><th scope="col">Meaning</th><th scope="col">Action</th></tr>
@@ -325,7 +325,7 @@
             <tr><td>5xx</td><td>Server error</td><td>Retry with backoff</td></tr>
           </tbody>
         </table>
-      </div>
+      </section>
     </section>
 
     <hr>

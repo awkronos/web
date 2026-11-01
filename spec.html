@@ -80,8 +80,8 @@
       <p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="https://www.rfc-editor.org/rfc/rfc2119">RFC 2119</a>.</p>
 
       <h3>1.2 Conformance Levels</h3>
-      <div class="table-wrapper">
-        <table>
+      <section class="table-wrapper" aria-label="Conformance levels and their requirements" tabindex="0">
+<table>
           <caption>Conformance levels and their requirements</caption>
           <thead>
             <tr><th scope="col">Level</th><th scope="col">Description</th><th scope="col">Requirements</th></tr>
@@ -104,7 +104,7 @@
             </tr>
           </tbody>
         </table>
-      </div>
+      </section>
     </section>
 
     <hr>
@@ -120,7 +120,7 @@
           <span class="code-lang">Structure</span>
           <button type="button" class="copy-btn" data-copy="pod-structure-code" aria-label="Copy Pod structure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
         </div>
-        <pre><code id="pod-structure-code">/profile/card                  # WebID profile with agent:AIAgent type
+        <pre tabindex="0"><code id="pod-structure-code">/profile/card                  # WebID profile with agent:AIAgent type
 /private/
   └── agent/
       ├── memory/
@@ -141,7 +141,7 @@
           <span class="code-lang">Turtle</span>
           <button type="button" class="copy-btn" data-copy="profile-example" aria-label="Copy profile example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
         </div>
-        <pre><code id="profile-example">@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
+        <pre tabindex="0"><code id="profile-example">@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
 @prefix agent: &lt;https://awkronos.github.io/web/vocab#&gt; .
 @prefix schema: &lt;https://schema.org/&gt; .
 
@@ -169,8 +169,8 @@
       <h3 id="a4">3.1 [A4] Episode Format</h3>
       <p>Each memory episode MUST be stored as a separate RDF resource with the following required properties:</p>
 
-      <div class="table-wrapper">
-        <table>
+      <section class="table-wrapper" aria-label="Required and optional properties for memory episodes" tabindex="0">
+<table>
           <caption>Required and optional properties for memory episodes</caption>
           <thead>
             <tr><th scope="col">Property</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr>
@@ -184,7 +184,7 @@
             <tr><td><code>agent:embeddingModel</code></td><td>xsd:string</td><td>MAY*</td><td>*MUST if embedding present</td></tr>
           </tbody>
         </table>
-      </div>
+      </section>
 
       <h3 id="a5">3.2 [A5] Episode Example</h3>
 
@@ -193,7 +193,7 @@
           <span class="code-lang">Turtle</span>
           <button type="button" class="copy-btn" data-copy="episode-example" aria-label="Copy episode example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
         </div>
-        <pre><code id="episode-example">@prefix agent: &lt;https://awkronos.github.io/web/vocab#&gt; .
+        <pre tabindex="0"><code id="episode-example">@prefix agent: &lt;https://awkronos.github.io/web/vocab#&gt; .
 @prefix dct: &lt;http://purl.org/dc/terms/&gt; .
 @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
 
@@ -232,7 +232,7 @@
           <span class="code-lang">Turtle</span>
           <button type="button" class="copy-btn" data-copy="caps-example" aria-label="Copy capabilities example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
         </div>
-        <pre><code id="caps-example">@prefix agent: &lt;https://awkronos.github.io/web/vocab#&gt; .
+        <pre tabindex="0"><code id="caps-example">@prefix agent: &lt;https://awkronos.github.io/web/vocab#&gt; .
 
 &lt;#caps&gt;
     a agent:CapabilitySet ;
@@ -275,7 +275,7 @@
           <span class="code-lang">Turtle</span>
           <button type="button" class="copy-btn" data-copy="audit-example" aria-label="Copy audit example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button>
         </div>
-        <pre><code id="audit-example">&lt;&gt;
+        <pre tabindex="0"><code id="audit-example">&lt;&gt;
     agent:contentHash "sha256-uU0nuZNNPgilLlLX2n2r+sSE7+N6U4DukIj3rOLvzek=" ;
     agent:signature "lDkEZ7f9dRvGj5kNpPiXmLqRqYT8oKvT3mLZjQ1nXw4..."^^xsd:base64Binary ;
     agent:signedBy &lt;/profile/card#me&gt; .</code></pre>
