@@ -9,13 +9,14 @@
 
 :root {
   /* Typography */
-  --font-sans: 'IBM Plex Sans', -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, sans-serif;
-  --font-mono: 'IBM Plex Mono', 'SF Mono', consolas, monospace;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Newsreader', georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', consolas, monospace;
 
-  /* Type Scale - Accessible sizing (min 16px for body) */
+  /* Type scale: public body starts at 18px. */
   --text-xs: 0.8125rem;   /* 13px - only for badges/labels */
   --text-sm: 0.9375rem;   /* 15px */
-  --text-base: 1.0625rem; /* 17px */
+  --text-base: 1.125rem;  /* 18px */
   --text-lg: 1.1875rem;   /* 19px */
   --text-xl: 1.375rem;    /* 22px */
   --text-2xl: 1.625rem;   /* 26px */
@@ -40,10 +41,10 @@
   --dur-610: 610ms;
 
   /* Light Theme Colors */
-  --bg: #FAFAF9;
+  --bg: #FAFAF8;
   --bg-elevated: #FFF;
   --bg-code: #F5F5F4;
-  --text: #1C1917;
+  --text: #1A1A1A;
   --text-secondary: #57534E;
   --text-tertiary: #737373;
   --accent: #0F766E;
@@ -60,30 +61,14 @@
   --content-width: 65ch;
 }
 
-/* Dark Theme */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0C0A09;
-    --bg-elevated: #1C1917;
-    --bg-code: #292524;
-    --text: #FAFAF9;
-    --text-secondary: #A8A29E;
-    --text-tertiary: #9C958F;
-    --accent: #2DD4BF;
-    --accent-hover: #5EEAD4;
-    --accent-subtle: rgb(45 212 191 / 15%);
-    --accent-ink: var(--bg);
-    --border: #292524;
-    --border-strong: #44403C;
-  }
-}
+/* Public pages start light. Readers can choose the dark theme. */
 
 /* Manual Theme Override */
 [data-theme="light"] {
-  --bg: #FAFAF9;
+  --bg: #FAFAF8;
   --bg-elevated: #FFF;
   --bg-code: #F5F5F4;
-  --text: #1C1917;
+  --text: #1A1A1A;
   --text-secondary: #57534E;
   --text-tertiary: #737373;
   --accent: #0F766E;
@@ -96,9 +81,9 @@
 
 [data-theme="dark"] {
   --bg: #0C0A09;
-  --bg-elevated: #1C1917;
+  --bg-elevated: #1A1A1A;
   --bg-code: #292524;
-  --text: #FAFAF9;
+  --text: #FAFAF8;
   --text-secondary: #A8A29E;
   --text-tertiary: #9C958F;
   --accent: #2DD4BF;
@@ -151,7 +136,7 @@ html {
 body {
   font-family: var(--font-sans);
   font-size: var(--text-base);
-  line-height: 1.75;
+  line-height: 1.8;
   color: var(--text);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
@@ -240,7 +225,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: var(--max-width);
+  max-width: 72rem;
   margin: 0 auto;
   padding: var(--space-3) var(--space-4);
   gap: var(--space-4);
@@ -248,18 +233,25 @@ nav {
 
 .nav-brand {
   display: flex;
-  align-items: center;
-  gap: var(--space-2);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
   font-weight: 600;
   color: var(--text);
   text-decoration: none;
-  font-size: var(--text-lg);
+  font-size: var(--text-xs);
+  white-space: nowrap;
 }
 
-.nav-brand svg {
-  width: 28px;
-  height: 28px;
-  color: var(--accent);
+.nav-brand img,
+.footer-brand img {
+  width: 150px;
+  height: auto;
+}
+
+.campaign-label {
+  color: var(--text-secondary);
+  font-weight: 400;
 }
 
 .nav-brand:hover {
@@ -274,6 +266,7 @@ nav {
 }
 
 .nav-links a {
+  white-space: nowrap;
   color: var(--text-secondary);
   text-decoration: none;
   font-size: var(--text-base);
@@ -323,11 +316,6 @@ nav {
 [data-theme="dark"] .theme-toggle .sun { display: none; }
 [data-theme="dark"] .theme-toggle .moon { display: block; }
 
-@media (prefers-color-scheme: dark) {
-  .theme-toggle .sun { display: none; }
-  .theme-toggle .moon { display: block; }
-}
-
 [data-theme="light"] .theme-toggle .sun { display: block; }
 [data-theme="light"] .theme-toggle .moon { display: none; }
 
@@ -346,7 +334,7 @@ nav {
   height: 24px;
 }
 
-@media (width <= 768px) {
+@media (width <= 1024px) {
   .nav-toggle {
     display: flex;
     align-items: center;
@@ -355,7 +343,7 @@ nav {
 
   .nav-links {
     position: fixed;
-    top: 60px;
+    top: 78px;
     left: 0;
     right: 0;
     background: var(--bg-elevated);
@@ -367,7 +355,7 @@ nav {
     opacity: 0;
     visibility: hidden;
     transition: transform var(--dur-233), opacity var(--dur-233), visibility var(--dur-233);
-    box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
+
   }
 
   .nav-links.open {
@@ -401,6 +389,7 @@ nav {
    ========================================================================== */
 
 .page-content {
+  overflow-wrap: anywhere;
   max-width: var(--max-width);
   margin: 0 auto;
   padding: var(--space-6) var(--space-4);
@@ -490,26 +479,8 @@ nav {
   letter-spacing: 0.05em;
 }
 
-.badge-dot {
-  width: 6px;
-  height: 6px;
-  background: var(--accent);
-  border-radius: 50%;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .badge-dot {
-    animation: none;
-  }
-}
-
 .hero h1 {
+  font-family: var(--font-display);
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 600;
   line-height: 1.15;
@@ -517,11 +488,8 @@ nav {
   margin-bottom: var(--space-4);
 }
 
-.gradient-text {
-  background: linear-gradient(135deg, var(--accent) 0%, #14B8A6 50%, #06B6D4 100%);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent; /* Fallback for browsers that don't support -webkit-text-fill-color */
+.hero-emphasis {
+  color: var(--accent);
 }
 
 .hero-tagline {
@@ -712,7 +680,7 @@ nav {
 
 .principle-card:hover {
   border-color: var(--accent);
-  box-shadow: 0 8px 32px rgb(0 0 0 / 8%);
+
   transform: translateY(-4px);
 }
 
@@ -840,7 +808,7 @@ nav {
 
 .doc-card:hover {
   border-color: var(--accent);
-  box-shadow: 0 4px 20px rgb(0 0 0 / 8%);
+
   text-decoration: none;
 }
 
@@ -1296,7 +1264,7 @@ pre code {
 
 .btn-primary:hover {
   background: var(--accent-hover);
-  box-shadow: 0 4px 12px rgb(15 118 110 / 30%);
+
 }
 
 .btn-secondary {
@@ -1337,14 +1305,9 @@ footer {
 
 .footer-brand {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   gap: var(--space-2);
-}
-
-.footer-brand svg {
-  width: 32px;
-  height: 32px;
-  color: var(--accent);
 }
 
 .footer-title {
@@ -1444,6 +1407,7 @@ footer {
   }
 
   .page-content {
+  overflow-wrap: anywhere;
     max-width: none;
     padding: 0;
   }

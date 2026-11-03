@@ -32,13 +32,9 @@ const initTheme = () => {
   const toggle = document.getElementById('theme-toggle');
   const html = document.documentElement;
 
-  // Load saved theme or detect system preference
+  // Start public pages light; preserve an explicit reader preference.
   const saved = storage.get('theme');
-  if (saved) {
-    html.dataset.theme = saved;
-  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    html.dataset.theme = 'dark';
-  }
+  html.dataset.theme = saved === 'dark' ? 'dark' : 'light';
 
   // Update aria-pressed state
   const updateToggleState = () => {
@@ -67,13 +63,6 @@ const initTheme = () => {
     });
   }
 
-  // Listen for system theme changes
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    if (!storage.get('theme')) {
-      html.dataset.theme = e.matches ? 'dark' : 'light';
-      updateToggleState();
-    }
-  });
 };
 
 // ==========================================================================
