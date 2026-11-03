@@ -1,0 +1,175 @@
+# CITATION.cff — awkronos/web (Agent Data Pod Specification)
+#
+# Every value below is measured from origin/main@88870343c6ec3f0d4d4e90b01fefab93c59274e3
+# or from `gh api repos/awkronos/web` (2026-11-03). Fields that could not be measured are
+# OMITTED, never invented: no DOI, ORCID, arXiv id or funder appears in this file, because
+# none appears in this repository's own text. RFC 2119, PROV-O and RDF Dataset
+# Canonicalization were additionally checked on their canonical pages and carry no DOI
+# there either — for the standards this profile is built on, the stable identifier is the
+# versioned URL, which is what `references:` records.
+#
+# `license` = CC-BY-4.0, measured from three independent places in this repo:
+#   package.json ("license": "CC-BY-4.0"), vocab.ttl (dct:license
+#   <https://creativecommons.org/licenses/by/4.0/>), and the site footer
+#   ("An Awkronos for humans project · CC BY 4.0 · 2026 Timothy Jacoby").
+#   GitHub's detector reports no license because no LICENSE file is tracked — a repo gap,
+#   not a different license. NOT guessed.
+#
+# `version` / `date-released` / `commit` = 0.2.0, dated 2026-02-03 by changelog.html
+#   (0.1.0 = 2026-02-01); `commit` is the full SHA of main at the time this file was written.
+#
+# `authors` = person + org. Measured basis: package.json `author` and vocab.ttl
+#   `dct:creator` (foaf:name "Timothy Jacoby", foaf:mbox tim@awkronos.com); site footer
+#   "2026 Timothy Jacoby"; git history = 18 commits, 16 by Chronos Bot identities that carry
+#   no personal name, 2 by Tim Jacoby. The project's citation law forbids a bare org as sole
+#   author where persons authored. ORCID is omitted rather than guessed.
+#
+# ROOT `type` is OMITTED deliberately: the 1.2.0 enum is [dataset | software] only, and a
+#   specification profile is neither. Omitting is more truthful than asserting `software`
+#   for a normative document set. This is the same 1.2.0 expressiveness gap that makes
+#   contributorship inexpressible (no root `contributors`, no root `year` — verified against
+#   schema.json at ref 1.2.0: root required = [authors, cff-version, message, title],
+#   21 allowed root keys, additionalProperties false). Per-unit `kind` and full
+#   contributorship therefore live in docs/CITATIONS.md, which is the load-bearing leg.
+#
+# `references:` = the 11 external works this repository itself names in a References section
+#   (spec.html §6 normative [5] + informative [3], paper.html §7 adds DID-CORE,
+#   interop.html adds ANP Agent Description) plus RFC 9449, which spec.html §5.7 cites
+#   normatively in prose while omitting it from §6. Publisher-as-entity names are copied from
+#   this repository's own reference labels, not assigned. FOAF, DC Terms (namespace imports in
+#   vocab.ttl) and OpenMemory HMD v2 (named, never linked) are recorded in docs/CITATIONS.md.
+cff-version: 1.2.0
+message: >-
+  If you use this project, please cite it as below. Per-result, structured citations
+  (each citable unit with its kind, authors, epistemic status, stable link and citation
+  graph) are in docs/CITATIONS.md — that file, not this one, is the authoritative citation
+  carrier, because CFF 1.2.0 cannot express contributorship.
+title: >-
+  Agent Data Pod Specification: A profile of the Solid Protocol for AI agent data storage
+  (draft, v0.2.0)
+authors:
+  - given-names: Timothy
+    family-names: Jacoby
+    email: tim@awkronos.com
+  - name: Awkronos
+repository-code: https://github.com/awkronos/web
+url: https://awkronos.github.io/web/
+version: 0.2.0
+date-released: "2026-02-03"
+commit: 88870343c6ec3f0d4d4e90b01fefab93c59274e3
+license: CC-BY-4.0
+abstract: >-
+  A draft profile of the Solid Protocol for storing AI agent data — memory episodes, agent
+  state, capability declarations and audit trails — in user-controlled Solid Pods, so that
+  an agent's accumulated context can migrate between implementations. The normative content
+  is spec.html (14 requirement clauses [A1]-[A6] and [S1]-[S8], carrying 32 RFC 2119 keywords)
+  and vocab.ttl (25 terms: 6 OWL classes and 19 properties, 17 datatype / 2 object, with
+  agent:AIAgent subclassed under foaf:Agent and agent:MemoryEpisode / agent:AuditEntry under
+  prov:Entity / prov:Activity). Conformance is levelled Minimal / Standard / Full. This
+  repository contains no proofs, no conformance suite and no experiments: every claim is
+  design intent, and the specification states it "has not been reviewed or endorsed by any
+  standards body."
+keywords:
+  - solid
+  - agent
+  - ai
+  - rdf
+  - specification
+  - data-sovereignty
+  - memory
+  - interoperability
+references:
+  - abbreviation: RFC-2119
+    authors:
+      - name: Internet Engineering Task Force
+    title: Key words for use in RFCs to Indicate Requirement Levels
+    type: standard
+    url: https://www.rfc-editor.org/rfc/rfc2119
+    year: 1997
+    notes: spec.html §1.1; normative in spec.html §6
+  - abbreviation: RFC-9449
+    authors:
+      - name: Internet Engineering Task Force
+    title: >-
+      OAuth 2.0 Demonstrating Proof of Possession (DPoP)
+    type: standard
+    url: https://datatracker.ietf.org/doc/html/rfc9449
+    year: 2023
+    notes: >-
+      spec.html §5.7 [S7] cites "RFC 9449" in prose; DPoP named there, title verified on the
+      IETF page. Absent from spec.html §6 References — a dangling normative reference.
+  - abbreviation: SOLID-PROTOCOL
+    authors:
+      - name: Solid Project
+    title: "Solid Protocol, Version 0.11.0"
+    type: standard
+    url: https://solidproject.org/TR/protocol
+    year: 2024
+    notes: >-
+      Normative base of this profile. "Version 0.11.0, May 2024" measured from paper.html §7.
+  - abbreviation: WAC
+    authors:
+      - name: Solid Project
+    title: Web Access Control
+    type: standard
+    url: https://solid.github.io/web-access-control-spec/
+    notes: spec.html §6 normative; used by requirement [S3]
+  - abbreviation: PROV-O
+    authors:
+      - name: World Wide Web Consortium
+    title: "PROV-O: The PROV Ontology"
+    type: standard
+    url: https://www.w3.org/TR/2013/REC-prov-o-20130430/
+    year: 2013
+    notes: >-
+      Dated W3C Recommendation permalink (30 April 2013), verified against the W3C page;
+      persistent latest-version URL is https://www.w3.org/TR/prov-o/. Superclasses
+      prov:Entity and prov:Activity in vocab.ttl. No DOI on the canonical page.
+  - abbreviation: RDFC-1.0
+    authors:
+      - name: World Wide Web Consortium
+    title: RDF Dataset Canonicalization
+    type: standard
+    url: https://w3c.github.io/rdf-canon/spec/
+    notes: >-
+      spec.html §6 normative; used by requirement [S5] integrity hashing and agent:contentHash.
+      Status/version of this document not asserted here — no dated version was verified.
+  - abbreviation: DID-CORE
+    authors:
+      - name: World Wide Web Consortium
+    title: "Decentralized Identifiers (DIDs) v1.0"
+    type: standard
+    url: https://www.w3.org/TR/did-core/
+    year: 2022
+    notes: paper.html §7 — "W3C Recommendation, July 2022"
+  - abbreviation: DID-WBA
+    authors:
+      - name: Agent Network Protocol
+    title: ANP did:wba Method Specification
+    type: standard
+    url: https://agentnetworkprotocol.com/en/specs/03-did-wba-method-specification/
+    notes: spec.html §6 informative; interop.html; identity linkage in [S6]
+  - abbreviation: ANP-AGENT-DESCRIPTION
+    authors:
+      - name: Agent Network Protocol
+    title: ANP Agent Description Protocol Specification
+    type: standard
+    url: https://agentnetworkprotocol.com/en/specs/07-anp-agent-description-protocol-specification/
+    notes: interop.html; defines agent:AgentDescriptionService (rdfs:seeAlso)
+  - abbreviation: A2A
+    authors:
+      - name: A2A Protocol
+    title: Agent2Agent Protocol Specification
+    type: standard
+    url: https://a2a-protocol.org/latest/specification/
+    notes: >-
+      spec.html §6 informative; interop.html. Cited as "/latest/" — no fixed version of record.
+  - abbreviation: MCP
+    authors:
+      - name: Model Context Protocol
+    title: Model Context Protocol Specification
+    type: standard
+    url: https://modelcontextprotocol.io/
+    notes: >-
+      spec.html §6 informative; paper.html §7; interop.html; agent:mcpEndpoint.
+      interop.html also links /specification/2025-11-25 as a dated snapshot.
