@@ -1,0 +1,14 @@
+# Custom HTTP headers for GitHub Pages.
+#
+# GitHub Pages serves files by extension; `.ttl` already maps to
+# "text/turtle; charset=utf-8" on the live site (measured), but an
+# extensionless file gets a generic type. `vocab/0.2.0` is the exact
+# target of `owl:versionIRI` in `vocab.ttl`, so it must be served with the
+# RDF media type like its `.ttl` sibling. Paths below are relative to the
+# site root — GitHub Pages serves this repo under the project base path
+# `/web/` itself, so the rule must not repeat that prefix; the web owner
+# with deploy rights confirms the actual response header after this lands
+# (this lane cannot deploy per its brief).
+
+/vocab/0.2.0
+  Content-Type: text/turtle; charset=utf-8
