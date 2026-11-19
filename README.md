@@ -149,6 +149,7 @@ the table above, not prose attribution.
 |-|-|-|
 | [`spec.html`](spec.html) | The specification: pod structure, memory episodes, capabilities, security requirements | **yes** |
 | [`vocab.ttl`](vocab.ttl) | The RDF vocabulary, machine-readable (`https://awkronos.github.io/web/vocab#`, `owl:versionIRI` `…/vocab/0.2.0#`) | **yes** |
+| [`vocab/0.2.0`](vocab/0.2.0) · [`vocab/0.2.0.ttl`](vocab/0.2.0.ttl) | The immutable bytes the `owl:versionIRI` above resolves to: a permanent copy of the 0.2.0 vocabulary, never edited in place — pinned by [`scripts/check-version.mjs`](scripts/check-version.mjs) | **yes** |
 | [`vocab.html`](vocab.html) | Human-readable rendering of the vocabulary | derived |
 | [`interop.html`](interop.html) | Interoperability guide + protocol compatibility matrix | informative |
 | [`migration.html`](migration.html) | Migration guide (JSON chat history, SQLite/PostgreSQL, OpenAI Assistants, LangChain; embedding migration) | informative |
@@ -166,7 +167,7 @@ install.
 
 ```bash
 npm ci
-npm run validate        # html-validate *.html && stylelint style.css
+npm run validate        # html-validate *.html && stylelint style.css && node scripts/check-version.mjs --self-test
 ```
 
 To use the vocabulary, dereference or copy `vocab.ttl` and declare the

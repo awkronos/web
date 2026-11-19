@@ -3,9 +3,10 @@
   "version": "0.2.0",
   "description": "Agent Data Pod Specification — A profile of the Solid Protocol for AI agent data storage",
   "scripts": {
-    "validate": "npm run validate:html && npm run validate:css",
+    "validate": "npm run validate:html && npm run validate:css && npm run validate:version",
     "validate:html": "html-validate *.html",
-    "validate:css": "stylelint style.css"
+    "validate:css": "stylelint style.css",
+    "validate:version": "node scripts/check-version.mjs --self-test"
   },
   "repository": {
     "type": "git",
