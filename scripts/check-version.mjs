@@ -22,7 +22,10 @@
 // owner in memory and proves every site would be reported, and proves each
 // versioned-copy failure mode (wrong version, wrong content, candidate
 // bytes, rolling-release drift, advertised release without bytes) would be
-// reported too.
+// reported too. The two arms that need an *unpublished* version choose it at
+// run time from the pinned manifest, so they cannot rot into no-ops the day a
+// future release is minted; the self-test proves that choice reads the
+// fixture.
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
@@ -72,6 +75,24 @@ function check(owner, files) {
 
 const sha256 = (text) => createHash("sha256").update(Buffer.from(text, "utf8")).digest("hex");
 
+const reEscape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+// Pure: pick a `major.minor.patch` string guaranteed NOT to be a key of
+// `published`, walking patch numbers up from `base`. Used only by --self-test:
+// the "advertised release without bytes" arm needs a version nobody has minted
+// bytes for, and that must be discovered from the fixture at run time. A
+// hard-coded probe would silently become a published version the day that
+// release lands, turning the arm into a test of nothing.
+function absentVersion(published, base) {
+  const m = /^(\d+)\.(\d+)\.(\d+)$/.exec(base);
+  const [major, minor, firstPatch] = m ? [Number(m[1]), Number(m[2]), Number(m[3]) + 1] : [0, 0, 1];
+  for (let patch = firstPatch; patch < firstPatch + 1000; patch += 1) {
+    const candidate = `${major}.${minor}.${patch}`;
+    if (!(candidate in published)) return candidate;
+  }
+  throw new Error(`absentVersion: every patch number in ${firstPatch}..${firstPatch + 999} is published — the probe needs a wider window`);
+}
+
 // Pure: given the owner version, the pinned-bytes manifest, the file
 // contents (keyed by repo-relative path, only the paths mentioned below
 // need be present) and the `vocab/` directory listing, report every way a
@@ -111,7 +132,7 @@ function checkVersioned(owner, published, files, dirListing) {
       // Wrong version: the file at this path describes a different version
       // than its own path says.
       const infoMatch = text.match(/owl:versionInfo "(\d+\.\d+\.\d+)"/);
-      const iriMatch = text.match(new RegExp(`owl:versionIRI <${BASE_IRI.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/(\\d+\\.\\d+\\.\\d+)#>`));
+      const iriMatch = text.match(new RegExp(`owl:versionIRI <${reEscape(BASE_IRI)}/(\\d+\\.\\d+\\.\\d+)#>`));
       if (!infoMatch) failures.push(`${rel}: owl:versionInfo not found (pattern drifted)`);
       else if (infoMatch[1] !== version) failures.push(`${rel}: wrong version — owl:versionInfo says ${infoMatch[1]}, path says ${version}`);
       if (!iriMatch) failures.push(`${rel}: owl:versionIRI not found (pattern drifted)`);
@@ -166,6 +187,32 @@ if (process.argv.includes("--self-test")) {
 
   const { vFiles: baseVFiles, listing: baseListing } = readVersioned();
 
+  // The probe version both "unpublished" arms need, chosen from the live
+  // fixture rather than hard-coded — see absentVersion().
+  const probe = absentVersion(PUBLISHED_VERSIONS, owner);
+  console.log(`version self-test: probe version ${probe} is absent from the ${Object.keys(PUBLISHED_VERSIONS).length} pinned release(s)`);
+
+  // The chooser must actually read the manifest it is handed. Proof: pin the
+  // probe into a synthetic copy of the fixture and require a different probe
+  // back. A constant-returning chooser passes every arm above and fails here.
+  const dense = { ...PUBLISHED_VERSIONS, [probe]: "0".repeat(64) };
+  const probeWhenPinned = absentVersion(dense, owner);
+  if (probeWhenPinned === probe) {
+    console.error(`self-test FAILED: absentVersion() returned ${probe} for a fixture that already pins ${probe} — the probe is not read from PUBLISHED_VERSIONS`);
+    process.exit(1);
+  }
+  if (probe in PUBLISHED_VERSIONS || probeWhenPinned in dense) {
+    console.error("self-test FAILED: absentVersion() returned a version present in its own fixture");
+    process.exit(1);
+  }
+  for (const version of Object.keys(PUBLISHED_VERSIONS)) {
+    if (probe === version) {
+      console.error(`self-test FAILED: probe ${probe} collides with pinned release ${version}`);
+      process.exit(1);
+    }
+  }
+  console.log(`version self-test: probe chooser reads the fixture (${probe} -> ${probeWhenPinned} once ${probe} is pinned)`);
+
   const arms = [
     {
       name: "wrong version",
@@ -182,7 +229,7 @@ if (process.argv.includes("--self-test")) {
     {
       name: "candidate bytes",
       files: baseVFiles,
-      listing: [...baseListing, "0.9.9.ttl"],
+      listing: [...baseListing, `${probe}.ttl`],
       expect: /candidate bytes/,
     },
     {
@@ -193,13 +240,15 @@ if (process.argv.includes("--self-test")) {
     },
     {
       // The review-found gap: owner moves to a version nobody minted bytes
-      // for (and nobody added to PUBLISHED_VERSIONS). All 8 site patterns
-      // would agree at 0.2.1 in a real bump; only this arm can refuse it.
+      // for (and nobody added to PUBLISHED_VERSIONS). Every site pattern would
+      // agree at that version in a real bump; only this arm can refuse it. The
+      // version comes from absentVersion() so the arm keeps testing something
+      // after future releases land — see the chooser proof above.
       name: "advertised release without bytes",
-      ownerOverride: "0.2.1",
+      ownerOverride: probe,
       files: baseVFiles,
       listing: baseListing,
-      expect: /advertised version 0\.2\.1 has no PUBLISHED_VERSIONS entry/,
+      expect: new RegExp(`advertised version ${reEscape(probe)} has no PUBLISHED_VERSIONS entry`),
     },
   ];
 
