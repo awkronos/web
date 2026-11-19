@@ -21,7 +21,8 @@
 // Known-positive: `node scripts/check-version.mjs --self-test` mutates the
 // owner in memory and proves every site would be reported, and proves each
 // versioned-copy failure mode (wrong version, wrong content, candidate
-// bytes, rolling-release drift) would be reported too.
+// bytes, rolling-release drift, advertised release without bytes) would be
+// reported too.
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
@@ -118,17 +119,22 @@ function checkVersioned(owner, published, files, dirListing) {
     }
   }
 
-  // Rolling-release drift: the live entrypoint and the immutable copy for
-  // the current version are two names for the same release and must be the
-  // same bytes. If vocab.ttl moves without package.json's version moving
-  // with it, the pinned copy for `owner` is now describing bytes that no
-  // longer exist anywhere, while the advertised IRI still resolves to them.
-  if (owner in published && files["vocab.ttl"] !== undefined) {
-    if (sha256(files["vocab.ttl"]) !== published[owner]) {
-      failures.push(
-        `vocab.ttl: rolling-release drift — the live entrypoint's bytes differ from the pinned copy for its own version ${owner}; bump package.json's version (and add a new PUBLISHED_VERSIONS entry) or restore the bytes, never edit the published copy in place`,
-      );
-    }
+  // The current release must itself be an immutable resource — this is
+  // membership, not a past-release audit. A version bump that moves
+  // package.json and vocab.ttl's advertised versionIRI without minting the
+  // pinned bytes re-creates the original defect under a new number: the
+  // advertised IRI resolves to nothing again. Owner membership is enforced,
+  // never assumed; once the owner IS pinned, its live bytes are checked
+  // against the pin (rolling-release drift), so vocab.ttl cannot move under
+  // its own version either.
+  if (!(owner in published)) {
+    failures.push(
+      `vocab.ttl: advertised version ${owner} has no PUBLISHED_VERSIONS entry — a release must mint its immutable copy (vocab/${owner} + vocab/${owner}.ttl) in the same change that bumps the version, or the advertised owl:versionIRI resolves to nothing`,
+    );
+  } else if (files["vocab.ttl"] !== undefined && sha256(files["vocab.ttl"]) !== published[owner]) {
+    failures.push(
+      `vocab.ttl: rolling-release drift — the live entrypoint's bytes differ from the pinned copy for its own version ${owner}; bump package.json's version (and add a new PUBLISHED_VERSIONS entry) or restore the bytes, never edit the published copy in place`,
+    );
   }
 
   return failures;
@@ -185,10 +191,20 @@ if (process.argv.includes("--self-test")) {
       listing: baseListing,
       expect: /rolling-release drift/,
     },
+    {
+      // The review-found gap: owner moves to a version nobody minted bytes
+      // for (and nobody added to PUBLISHED_VERSIONS). All 8 site patterns
+      // would agree at 0.2.1 in a real bump; only this arm can refuse it.
+      name: "advertised release without bytes",
+      ownerOverride: "0.2.1",
+      files: baseVFiles,
+      listing: baseListing,
+      expect: /advertised version 0\.2\.1 has no PUBLISHED_VERSIONS entry/,
+    },
   ];
 
   for (const arm of arms) {
-    const caught = checkVersioned(owner, PUBLISHED_VERSIONS, arm.files, arm.listing);
+    const caught = checkVersioned(arm.ownerOverride ?? owner, PUBLISHED_VERSIONS, arm.files, arm.listing);
     if (!caught.some((f) => arm.expect.test(f))) {
       console.error(`self-test FAILED: arm "${arm.name}" was not caught (got ${caught.length} unrelated failures)`);
       process.exit(1);
