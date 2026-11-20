@@ -4,8 +4,15 @@
 // The site has no build step, so the published pages restate the version in
 // a few places a reader must see (spec/vocab headers, the ontology's
 // versionInfo/versionIRI, the paper's self-citation, the changelog's newest
-// row). Each of those is pinned here to package.json; any other copy (file
-// banners, comments) was deleted rather than kept in sync.
+// row, the two vocab.html "immutable version copy" download links, the
+// README front door — status line, BibTeX `version`, and the two document-map
+// cells naming the versionIRI and the pinned copy — and CITATION.cff's
+// `version` field and title). Each of those is pinned here to package.json;
+// any other copy (file banners, comments) was deleted rather than kept in
+// sync. Deliberately NOT pinned: CITATION.cff `date-released`/`commit` (they
+// track the release's date and SHA, not the owner string, and are updated by
+// the minting change itself), and the changelog's "0.1.0 → 0.2.0" span rows
+// (informative history, not a claim about the current version).
 //
 // The ontology additionally advertises an `owl:versionIRI`
 // (e.g. https://awkronos.github.io/web/vocab/0.2.0#) that points at a
@@ -61,6 +68,18 @@ const SITES = [
   ["vocab.html", "versioned-copy IRI", /https:\/\/awkronos\.github\.io\/web\/vocab\/(\d+\.\d+\.\d+)#<\/code>/],
   ["paper.html", "self-citation", /Agent Data Pod Specification, Version (\d+\.\d+\.\d+)\./],
   ["changelog.html", "newest history row", /<tbody>\s*<tr><td><strong>(\d+\.\d+\.\d+)<\/strong><\/td>/],
+  // Pinned by WEB-RSI-516138-RETRY: until this change a bump that moved the
+  // eight sites above left these reader-visible restatements naming the
+  // previous release — two of them labelled "owl:versionIRI target" on the
+  // very page whose IRI text the gate already pins.
+  ["vocab.html", "immutable-copy .ttl link", /<a href="vocab\/(\d+\.\d+\.\d+)\.ttl" download>/],
+  ["vocab.html", "immutable-copy link", /<a href="vocab\/(\d+\.\d+\.\d+)">vocab\//],
+  ["README.md", "front-door status line", /Status: \*\*draft\*\*, version \*\*(\d+\.\d+\.\d+)\*\*/],
+  ["README.md", "BibTeX version field", /version\s*=\s*\{(\d+\.\d+\.\d+)\},/],
+  ["README.md", "doc-map versionIRI cell", /`owl:versionIRI` `…\/vocab\/(\d+\.\d+\.\d+)#`/],
+  ["README.md", "doc-map immutable-copy cell", /\[`vocab\/(\d+\.\d+\.\d+)`\]\(vocab\/\1\)/],
+  ["CITATION.cff", "cff version field", /^version:\s*(\d+\.\d+\.\d+)/m],
+  ["CITATION.cff", "cff title version", /\(draft, v(\d+\.\d+\.\d+)\)/],
 ];
 
 function check(owner, files) {
