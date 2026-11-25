@@ -25,6 +25,15 @@
 // entry here and freezing one pair of files under `vocab/` — never editing
 // or renaming an existing entry's or file's bytes in place.
 //
+// That pair is the WHOLE vocabulary of the `vocab/` tree, not merely the pair
+// the manifest happens to read: the tree is checked exhaustively, because
+// GitHub Pages serves every name under it (deploy.yml uploads `path: "."`)
+// and only names listed in PUBLISHED_VERSIONS have pinned bytes. A third name
+// for a pinned version, or any name that matches no version at all, therefore
+// serves vocabulary bytes no check can ever account for. Measured 2026-11-24
+// (WEB-RSI-cdfd83): `vocab/draft.ttl`, `vocab/0.2.0.ttl.orig` and
+// `vocab/0.2.1.TTL` each passed this gate at rc 0 before that was fixed.
+//
 // Known-positive: `node scripts/check-version.mjs --self-test` mutates the
 // owner in memory and proves every site would be reported, and proves each
 // versioned-copy failure mode (wrong version, wrong content, candidate
@@ -43,7 +52,16 @@ const read = (rel) => readFileSync(path.join(ROOT, rel), "utf8");
 
 const BASE_IRI = "https://awkronos.github.io/web/vocab";
 const VERSION_DIR = "vocab";
-const VERSION_RESOURCE_RE = /^(\d+\.\d+\.\d+)(\.ttl)?$/;
+// The extension is matched case-insensitively so a copy minted as
+// `vocab/0.2.1.TTL` is still classified as a version resource: the two
+// pinned forms below are lower-case, so the case variant is a refusal, and
+// it deserves the version-aware message rather than a generic one.
+const VERSION_RESOURCE_RE = /^(\d+\.\d+\.\d+)(\.ttl)?$/i;
+
+// The only names the `vocab/` tree may publish. A version resource has two
+// pinned forms — the extensionless content-negotiated IRI and the explicit
+// Turtle download — and nothing else.
+const VERSION_RESOURCE_SUFFIXES = ["", ".ttl"];
 
 // Version → lowercase hex SHA-256 of the exact bytes published at
 // `vocab/<version>` and `vocab/<version>.ttl` (both are byte-identical
@@ -120,22 +138,50 @@ function absentVersion(published, base) {
 function checkVersioned(owner, published, files, dirListing) {
   const failures = [];
 
-  // Candidate bytes: a file under vocab/ that looks like a version resource
-  // but has no manifest entry — unpublished, or a rename/typo that would
-  // otherwise silently serve something no release ever pinned.
+  // The `vocab/` tree is exhaustive: every name in it is dereferenceable on
+  // the published site (deploy.yml uploads `path: "."`), so a name is legal
+  // only if it is one of the pinned forms of a pinned version. This is not a
+  // tightening of a hypothetical — measured 2026-11-24 (WEB-RSI-cdfd83) that
+  // `vocab/draft.ttl`, `vocab/0.2.0.ttl.orig` and `vocab/0.2.1.TTL` each
+  // passed the gate at rc 0, because only names matching VERSION_RESOURCE_RE
+  // were ever classified and a non-matching name was skipped with `continue`.
+  // An unpinned vocabulary copy hiding behind a name typo was therefore
+  // published silently, which is the exact failure this manifest exists to
+  // prevent. Three refusals, so the cure stays obvious:
+  //   candidate bytes  — version-shaped, that version was never pinned;
+  //   unpinned alias   — version-shaped, that version IS pinned, but this is
+  //                      not one of its two pinned paths (a second name for
+  //                      the same bytes is a second permanent IRI nobody
+  //                      pinned, and it survives a later byte change);
+  //   unpinned name    — not version-shaped at all, so nothing in the
+  //                      manifest can ever account for its bytes.
+  const pinnedNames = new Set();
+  for (const version of Object.keys(published)) {
+    for (const suffix of VERSION_RESOURCE_SUFFIXES) pinnedNames.add(`${version}${suffix}`);
+  }
   for (const name of dirListing) {
+    if (pinnedNames.has(name)) continue;
     const m = name.match(VERSION_RESOURCE_RE);
-    if (!m) continue;
-    const [, version] = m;
-    if (!(version in published)) {
+    const version = m ? m[1] : null;
+    if (version !== null && !(version in published)) {
       failures.push(
         `${VERSION_DIR}/${name}: candidate bytes — version ${version} matches the version-resource pattern but has no PUBLISHED_VERSIONS entry; an unreleased copy must never be published under a version IRI`,
+      );
+    } else if (version !== null) {
+      failures.push(
+        `${VERSION_DIR}/${name}: unpinned alias — version ${version} is published, but only ${VERSION_DIR}/${version} and ${VERSION_DIR}/${version}.ttl are pinned to its bytes; this second name serves the same bytes from a path no manifest entry covers, so it silently escapes every immutability check`,
+      );
+    } else {
+      failures.push(
+        `${VERSION_DIR}/${name}: unpinned name — the ${VERSION_DIR}/ tree publishes only pinned version resources (one of ${Object.keys(published).map((v) => `${VERSION_DIR}/${v} or ${VERSION_DIR}/${v}.ttl`).join(", ") || "(none yet)"}); this name matches no version pattern, so no PUBLISHED_VERSIONS entry can ever account for the bytes GitHub Pages serves at it — delete it from ${VERSION_DIR}/ or mint it as a real version`,
       );
     }
   }
 
   for (const [version, pinnedSha] of Object.entries(published)) {
-    for (const suffix of ["", ".ttl"]) {
+    // The SAME suffix list decides which names may exist above and whose
+    // bytes are pinned here, so a legal name can never be an unchecked one.
+    for (const suffix of VERSION_RESOURCE_SUFFIXES) {
       const rel = `${VERSION_DIR}/${version}${suffix}`;
       const text = files[rel];
       if (text === undefined) {
@@ -211,6 +257,22 @@ if (process.argv.includes("--self-test")) {
   const probe = absentVersion(PUBLISHED_VERSIONS, owner);
   console.log(`version self-test: probe version ${probe} is absent from the ${Object.keys(PUBLISHED_VERSIONS).length} pinned release(s)`);
 
+  // A pinned version, read from the manifest rather than hard-coded, for the
+  // arm that needs a name that IS version-shaped and IS published but is not
+  // one of the two pinned paths.
+  const [pinned] = Object.keys(PUBLISHED_VERSIONS);
+  // The names the four tree-exhaustiveness arms inject. Each must be absent
+  // from the live listing, or the arm would fire on the base tree too and
+  // prove nothing about its own mutation.
+  const syntheticNames = ["draft.ttl", `${pinned}.ttl.orig`, `${pinned}.TTL`, `${probe}.TTL`];
+  for (const name of syntheticNames) {
+    if (baseListing.includes(name)) {
+      console.error(`self-test FAILED: ${VERSION_DIR}/${name} is already published, so the arm that injects it cannot attribute its own failure`);
+      process.exit(1);
+    }
+  }
+  console.log(`version self-test: tree-exhaustiveness probes ${syntheticNames.join(", ")} are all absent from the live ${VERSION_DIR}/ listing`);
+
   // The chooser must actually read the manifest it is handed. Proof: pin the
   // probe into a synthetic copy of the fixture and require a different probe
   // back. A constant-returning chooser passes every arm above and fails here.
@@ -250,6 +312,35 @@ if (process.argv.includes("--self-test")) {
       files: baseVFiles,
       listing: [...baseListing, `${probe}.ttl`],
       expect: /candidate bytes/,
+    },
+    {
+      // The four arms below are the WEB-RSI-cdfd83 fix. Each one injects a
+      // name the old loop skipped with `continue`, so against the pre-fix
+      // classification every one of them returns zero failures and the
+      // self-test exits 1 — the arms are the measurement, not a description
+      // of it (proved by restoring the old loop and rerunning).
+      name: "candidate bytes, non-canonical extension",
+      files: baseVFiles,
+      listing: [...baseListing, `${probe}.TTL`],
+      expect: new RegExp(`${reEscape(VERSION_DIR)}/${reEscape(probe)}\\.TTL: candidate bytes`),
+    },
+    {
+      name: "unpinned alias",
+      files: baseVFiles,
+      listing: [...baseListing, `${pinned}.TTL`],
+      expect: new RegExp(`${reEscape(VERSION_DIR)}/${reEscape(pinned)}\\.TTL: unpinned alias`),
+    },
+    {
+      name: "unpinned name",
+      files: baseVFiles,
+      listing: [...baseListing, "draft.ttl"],
+      expect: new RegExp(`${reEscape(VERSION_DIR)}/draft\\.ttl: unpinned name`),
+    },
+    {
+      name: "editor backup in the version tree",
+      files: baseVFiles,
+      listing: [...baseListing, `${pinned}.ttl.orig`],
+      expect: new RegExp(`${reEscape(VERSION_DIR)}/${reEscape(pinned)}\\.ttl\\.orig: unpinned name`),
     },
     {
       name: "rolling-release drift",
