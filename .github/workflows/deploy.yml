@@ -8,9 +8,10 @@ name: Deploy to GitHub Pages
 # gate silently.
 #
 # Two changes on restore:
-#  - the deploy is now gated on `npm run validate` (html-validate +
-#    stylelint), which the repo has always defined and CI never ran, so a
-#    broken page cannot publish;
+#  - the deploy is now gated on `npm run validate` (html-validate + stylelint +
+#    the scripts/ checkers: version restatements, local link targets, and the
+#    vocab.ttl ↔ vocab.html term comparison), which the repo has always defined
+#    and CI never ran, so a broken page cannot publish;
 #  - a daily schedule, because a static site that nobody pushes to otherwise
 #    reports nothing at all about whether it still builds and deploys.
 
@@ -52,7 +53,7 @@ jobs:
           cache: npm
       - name: Install locked dependencies
         run: npm ci
-      - name: Validate HTML and CSS
+      - name: Validate the documents
         run: npm run validate
 
   deploy:

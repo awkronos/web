@@ -98,9 +98,16 @@ repository contains no test harness, no conformance results, no dates and no
 versions-of-record. Until such artifacts land, treat Solid-server
 compatibility and every `interop.html` support level as **design intent**, not
 verified behaviour. The document-level CI gate in this repo
-(`npm run validate` → `html-validate` + `stylelint`) checks the *markup of the
-specification pages*, not protocol conformance; a green deploy run is evidence
-that the documents are well-formed HTML/CSS, and nothing more.
+(`npm run validate` → `html-validate` + `stylelint` + `scripts/check-version.mjs`
++ `scripts/check-links.mjs` + `scripts/check-vocab.mjs`) checks the *markup and
+internal consistency of the specification pages*, not protocol conformance: the
+version gate proves every restated version string agrees and that each published
+`owl:versionIRI` resolves to pinned bytes, the link gate proves no `href`, `src`
+or `url()` points at a missing file, and the vocabulary gate extracts every term
+and every `rdfs:subClassOf` / `rdfs:domain` / `rdfs:range` from `vocab.ttl` and
+proves `vocab.html`'s tables restate them exactly. A green deploy run is evidence
+that the documents are well-formed HTML/CSS and agree with each other, and
+nothing more — no gate here has ever contacted a Solid server.
 
 Known inconsistencies that bear on these counts are listed in
 [`docs/CITATIONS.md`](docs/CITATIONS.md#defects-that-bear-on-citation-claims)
@@ -150,7 +157,7 @@ the table above, not prose attribution.
 | [`spec.html`](spec.html) | The specification: pod structure, memory episodes, capabilities, security requirements | **yes** |
 | [`vocab.ttl`](vocab.ttl) | The RDF vocabulary, machine-readable (`https://awkronos.github.io/web/vocab#`, `owl:versionIRI` `…/vocab/0.2.0#`) | **yes** |
 | [`vocab/0.2.0`](vocab/0.2.0) · [`vocab/0.2.0.ttl`](vocab/0.2.0.ttl) | The immutable bytes the `owl:versionIRI` above resolves to: a permanent copy of the 0.2.0 vocabulary, never edited in place — pinned by [`scripts/check-version.mjs`](scripts/check-version.mjs) | **yes** |
-| [`vocab.html`](vocab.html) | Human-readable rendering of the vocabulary | derived |
+| [`vocab.html`](vocab.html) | Human-readable restatement of the vocabulary: hand-written, with no build step producing it — every term and every `rdfs:subClassOf`/`domain`/`range` cell is compared against `vocab.ttl` by [`scripts/check-vocab.mjs`](scripts/check-vocab.mjs), so the two notations cannot drift apart silently | derived |
 | [`interop.html`](interop.html) | Interoperability guide + protocol compatibility matrix | informative |
 | [`migration.html`](migration.html) | Migration guide (JSON chat history, SQLite/PostgreSQL, OpenAI Assistants, LangChain; embedding migration) | informative |
 | [`paper.html`](paper.html) | W3C AI Agent Protocol Community Group position paper | informative |
@@ -167,7 +174,7 @@ install.
 
 ```bash
 npm ci
-npm run validate        # html-validate *.html && stylelint style.css && node scripts/check-version.mjs --self-test
+npm run validate        # html-validate + stylelint + check-version + check-links + check-vocab (each --self-test falls through to the live repo)
 ```
 
 To use the vocabulary, dereference or copy `vocab.ttl` and declare the
